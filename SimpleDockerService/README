@@ -1,0 +1,4 @@
+dotnet publish -o bin/publish
+docker build -t monguard2/simpledocker:1.0 .
+docker push monguard2/simpledocker:1.0
+docker run --rm -p8000:8000 monguard2/simpledocker:1.0
