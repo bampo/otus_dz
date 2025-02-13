@@ -1,0 +1,18 @@
+1) Создать Deployment myweb-dp с 2мя подами 
+	kubectl apply -f dp.yaml 
+2) Создать Service myweb 80:8000
+	kubectl apply -f svc.yaml
+3) Создать Ingress myweb-ing для http://arch.homework
+	kubectl apply -f ing.yaml
+4) Проверка 
+	http://arch.homework/health -> 200 {"status":"OK"}
+
+
+* "Задание со звездой" - Igress + rewrite:
+1) Удалить прежний ingress myweb-ing 
+	kubectl delete ing myweb-ing
+2) Применить новый ingress myweb-ing
+	kubectl apply -f ing-rw.yaml
+3)Проверка
+	http://arch.homework/vpotapov/health  
+	перенаправит запрос к -> myweb-svc/health
