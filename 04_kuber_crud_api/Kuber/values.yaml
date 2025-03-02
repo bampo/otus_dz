@@ -1,0 +1,19 @@
+# values.yaml
+image:
+  tag: "16"
+
+
+auth:
+  postgresPassword: "postgres"
+
+persistence:
+  enabled: true
+  size: 100Mi
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "200m"

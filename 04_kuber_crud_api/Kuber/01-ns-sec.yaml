@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myns
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: crud-api-secrets
+  namespace : myns
+data:
+  DB_PASSWORD: cG9zdGdyZXM=
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crud-api-configmap
+  namespace : myns  
+data:
+  DB_CONSTR: "Host=pg16-postgresql;Database=otusdz;Username=postgres;"
