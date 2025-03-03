@@ -1,6 +1,6 @@
-ДЗ: Инфраструктурные паттерны
+# ДЗ: Инфраструктурные паттерны
 
-# Папки проекта
+## Папки проекта
 
 [Api](Api) - проект CRUD API на NET 9
 
@@ -9,7 +9,7 @@
 [Postman](Postman) - коллекция запросов Postman и изображение с результатом
 
 
-# Начальные условия:
+## Начальные условия:
 
 - Установленный minikube (https://kubernetes.io/ru/docs/tasks/tools/install-minikube/)
 - в etc/hosts указан arch.homework c ip кластера (minikube ip)
@@ -17,7 +17,7 @@
 - установлен менеджер пакетов Helm (https://helm.sh/docs/intro/install/)
 
 
-# Развертывание приложения и БД
+## Развертывание приложения и БД
 
 1. Cоздание namespace myns и конфигов/секретов.
  
@@ -92,7 +92,7 @@ http://arch.homework/swagger
 
 `kubectl delete ns myns`
 
-# Задание со звездочкой
+## Задание со звездочкой
 
 Команды выполняются из каталога [Kuber](Kuber)
 
