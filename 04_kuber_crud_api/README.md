@@ -1,9 +1,21 @@
+ДЗ: Инфраструктурные паттерны
+
+# Папки проекта
+
+[Api](Api) - проект CRUD API на NET 9
+
+[Kuber](Kuber) - манифесты и Helm chart
+
+[Postman](Postman) - коллекция запросов Postman и изображение с результатом
+
+
 # Начальные условия:
 
 - Установленный minikube (https://kubernetes.io/ru/docs/tasks/tools/install-minikube/)
 - в etc/hosts указан arch.homework c ip кластера (minikube ip)
 - активирован ingress (minikube addons enable ingress)
 - установлен менеджер пакетов Helm (https://helm.sh/docs/intro/install/)
+
 
 # Развертывание приложения и БД
 
