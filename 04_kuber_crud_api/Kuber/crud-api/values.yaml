@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: monguard2/crud_api
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  host: arch.homework
+  path: /
+  pathType: Prefix
+
+# env:
+  # ConnectionStrings__Default: ""
+  # DB_PASSWORD: ""
+
+configMap:
+    DB_CONSTR: "Host=pg16-postgresql;Database=otusdz;Username=postgres;"
+
+secret:
+    DB_PASSWORD: cG9zdGdyZXM=
