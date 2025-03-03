@@ -79,3 +79,31 @@ http://arch.homework/swagger
 5. После проверки приложения можно удалить все созданные сущности:
 
 `kubectl delete ns myns`
+
+# Задание со звездочкой
+
+Команды выполняются из каталога [Kuber](Kuber)
+
+0. Удалить namespace myns, если в нем есть артефакты от предыдущего запуска
+
+      `kubectl delete ns myns`
+
+1. Создать namespace myns
+
+      `kubectl create ns myns`
+
+2. Установить Postgres из Helm 
+
+    `helm install pg16 bitnami/postgresql -f values.yaml --namespace myns`
+
+    По логам убедиться, что pod успешно проинициализировался
+
+3. Устновить приложение с помощью Helm
+
+      `helm install my-crud-api .\crud-api\ --namespace myns`
+
+4. Проверить работу с помощью коллекции Postman, из первой части
+
+5. Удалить namespace с артефактами
+
+      `kubectl delete ns myns`
