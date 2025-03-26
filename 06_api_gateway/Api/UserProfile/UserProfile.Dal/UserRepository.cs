@@ -1,6 +1,6 @@
 namespace UserProfile.Dal
 {
-    public class UserRepository(ApplicationDbContext context)
+    public class UserRepository(UserDbContext context)
     {
 
         public void AddUser(User user)

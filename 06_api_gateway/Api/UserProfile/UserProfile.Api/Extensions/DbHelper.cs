@@ -1,5 +1,4 @@
-﻿using EfDal;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using UserProfile.Dal;
 
@@ -23,7 +22,7 @@ public static class DbHelper
             csBuilder.Password = builder.Configuration["DB_PASSWORD"] ?? throw new ArgumentException("Empty DB_PASSWORD");
         }
 
-        builder.Services.AddScoped(provider => new ApplicationDbContext(csBuilder.ConnectionString));
+        builder.Services.AddScoped(provider => new UserDbContext(csBuilder.ConnectionString));
         builder.Services.AddScoped<UserRepository>();
 
         var exitAfterMigrations = args.Contains("--db-create");
@@ -33,9 +32,10 @@ public static class DbHelper
         var logger = services.GetRequiredService<ILogger<Program>>();
         try
         {
-            var context = services.GetRequiredService<ApplicationDbContext>();
+            var context = services.GetRequiredService<UserDbContext>();
 
-            await WaitDb(context);
+            //await WaitDb(context);
+            await context.Database.EnsureCreatedAsync();
 
             if (!(await context.Database.GetPendingMigrationsAsync()).Any())
             {
@@ -57,14 +57,16 @@ public static class DbHelper
         return exitAfterMigrations;
     }
 
-    private static async Task WaitDb(DbContext db)
+    /*private static async Task WaitDb(DbContext db)
     {
+        await db.Database.EnsureCreatedAsync();
         var retries = 5;
         while(!await db.Database.CanConnectAsync())
         {
             Console.WriteLine("Wait for DB ...");
             await Task.Delay(2000);
             if (--retries < 0) return;
+            throw new TimeoutException("Can't connect to DB");
         }
-    }
+    }*/
 }

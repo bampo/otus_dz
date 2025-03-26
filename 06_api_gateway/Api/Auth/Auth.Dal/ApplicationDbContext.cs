@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace UserProfile.Dal
+namespace Auth.Dal
 {
     public class ApplicationDbContext(string connectionString) : DbContext
     {
