@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using UserProfile.Api.Models;
-using UserProfile.Dal;
+using Users.Dal.Entities;
 
 namespace UserProfile.Api.Extensions;
 

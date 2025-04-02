@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserProfile.Dal;
+namespace Users.Dal.Entities;
 
 public class User
 {
@@ -16,9 +16,8 @@ public class User
     [Required]
     public string PasswordHash { get; set; }
 
-    public string FirstName { get; set; }
-    
-    public string LastName { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public ICollection<UserProfile> Profile { get; set; }
+
+    public ProfileInfo ProfileInfo { get; set; }
 }

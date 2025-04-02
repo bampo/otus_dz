@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using UserProfile.Dal;
+using Users.Dal;
 
 namespace UserProfile.Api.Extensions;
 
@@ -22,8 +22,8 @@ public static class DbHelper
             csBuilder.Password = builder.Configuration["DB_PASSWORD"] ?? throw new ArgumentException("Empty DB_PASSWORD");
         }
 
-        builder.Services.AddScoped(provider => new UserDbContext(csBuilder.ConnectionString));
-        builder.Services.AddScoped<UserRepository>();
+        builder.Services.AddScoped(provider => new UsersDbContext(csBuilder.ConnectionString));
+        builder.Services.AddScoped<UsersRepository>();
 
         var exitAfterMigrations = args.Contains("--db-create");
         
@@ -32,9 +32,10 @@ public static class DbHelper
         var logger = services.GetRequiredService<ILogger<Program>>();
         try
         {
-            var context = services.GetRequiredService<UserDbContext>();
+            var context = services.GetRequiredService<UsersDbContext>();
 
             //await WaitDb(context);
+            //context.Database.EnsureDeleted();
             await context.Database.EnsureCreatedAsync();
 
             if (!(await context.Database.GetPendingMigrationsAsync()).Any())

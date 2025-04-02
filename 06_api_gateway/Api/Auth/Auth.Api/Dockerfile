@@ -5,28 +5,26 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["UserProfile/UserProfile.Api/UserProfile.Api.csproj", "UserProfile/UserProfile.Api/"]
-COPY ["Api.ServiceDefaults/Api.ServiceDefaults.csproj", "Api.ServiceDefaults/"]
-COPY ["UserProfile/UserProfile.Dal/Users.Dal.csproj", "UserProfile/UserProfile.Dal/"]
-RUN dotnet restore "./UserProfile/UserProfile.Api/UserProfile.Api.csproj"
+COPY ["Auth/Auth.Api/Auth.Api.csproj", "Auth/Auth.Api/"]
+COPY ["Auth/Auth.Dal/Auth.Dal.csproj", "Auth/Auth.Dal/"]
+RUN dotnet restore "./Auth/Auth.Api/Auth.Api.csproj"
 COPY . .
-WORKDIR "/src/UserProfile/UserProfile.Api"
-RUN dotnet build "./UserProfile.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Auth/Auth.Api"
+RUN dotnet build "./Auth.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./UserProfile.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Auth.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "UserProfile.Api.dll"]
+ENTRYPOINT ["dotnet", "Auth.Api.dll"]

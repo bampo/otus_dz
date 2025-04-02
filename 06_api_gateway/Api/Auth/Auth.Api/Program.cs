@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +49,7 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -59,17 +60,43 @@ app.UseAuthorization();
 
 app.MapPost(
         "/login",
-        (string username, string password, UserService userService) =>
+        (LoginRequest req, UserService userService) =>
         {
-            var token = userService.Authenticate(username, password);
-            return token == null ? Results.Unauthorized() : Results.Ok(new { token });
+            var token = userService.Authenticate(req.login, req.password);
+            if (token == null)
+            {
+                app.Logger.LogWarning("Bad login attempt for login: '{login}'", req.login);
+                return Results.Unauthorized();
+            }
+
+            app.Logger.LogInformation("Successful auth for login '{login}'", req.login);
+            return Results.Ok(new { token });
         })
     .WithOpenApi();
 
 app.MapGet(
     "/auth",
-    [Authorize]() => Results.Ok());
+    [Authorize](HttpContext context) =>
+    {
+        var userId = context.User.FindFirst(ClaimTypes.Name)?.Value;
+
+        if (userId is null)
+        {
+            app.Logger.LogWarning("UserId was not found");
+            return Results.Unauthorized();
+        }
+        
+        app.Logger.LogInformation("Authenticate UserId: {userId} from JWT token", userId);
+        context.Response.Headers["X-User-Id"] = userId;
+        return Results.Ok();
+    });
 
 app.MapGet("/signin", () => "Get token on /login");
 
 app.Run();
+
+public class LoginRequest
+{
+    public string login { get; set; }
+    public string password { get; set; }
+}

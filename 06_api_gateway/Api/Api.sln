@@ -9,13 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.ServiceDefaults", "Api.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProfile.Dal", "UserProfile\UserProfile.Dal\UserProfile.Dal.csproj", "{5C8E803D-4A43-D5A8-DCCA-ABE25E82A7B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Dal", "UserProfile\UserProfile.Dal\Users.Dal.csproj", "{5C8E803D-4A43-D5A8-DCCA-ABE25E82A7B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProfile.Api", "UserProfile\UserProfile.Api\UserProfile.Api.csproj", "{30DEAF75-C1C6-1655-A994-4874DA1D910D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Api", "Auth\Auth.Api\Auth.Api.csproj", "{E8BAA0A0-679B-4EB2-8859-BF98C11058B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Dal", "Auth\Auth.Dal\Auth.Dal.csproj", "{A58864A1-D05E-C939-14A3-C13880773ED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserProfile.Tests", "UserProfile\UserProfile.Tests\UserProfile.Tests.csproj", "{30C902BD-9CDA-4261-B902-B7495696F2CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,18 @@ Global
 		{A58864A1-D05E-C939-14A3-C13880773ED3}.Release|x64.Build.0 = Release|Any CPU
 		{A58864A1-D05E-C939-14A3-C13880773ED3}.Release|x86.ActiveCfg = Release|Any CPU
 		{A58864A1-D05E-C939-14A3-C13880773ED3}.Release|x86.Build.0 = Release|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Debug|x64.Build.0 = Debug|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Debug|x86.Build.0 = Debug|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Release|x64.ActiveCfg = Release|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Release|x64.Build.0 = Release|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Release|x86.ActiveCfg = Release|Any CPU
+		{30C902BD-9CDA-4261-B902-B7495696F2CC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

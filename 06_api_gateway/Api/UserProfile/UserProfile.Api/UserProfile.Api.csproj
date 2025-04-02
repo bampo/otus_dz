@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>bebeb600-68ca-43fa-bb8a-64160c1cc12a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Api.ServiceDefaults\Api.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\UserProfile.Dal\UserProfile.Dal.csproj" />
+    <ProjectReference Include="..\UserProfile.Dal\Users.Dal.csproj" />
   </ItemGroup>
 
 </Project>

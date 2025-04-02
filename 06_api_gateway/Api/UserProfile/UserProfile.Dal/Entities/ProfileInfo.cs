@@ -1,12 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserProfile.Dal;
+namespace Users.Dal.Entities;
 
-public class UserProfile
+public class ProfileInfo
 {
     [Key]
     public int Id { get; set; }
+
+    public string FirstName { get; set; }
+    
+    public string LastName { get; set; }
 
     public string? Phone { get; set; }
 
