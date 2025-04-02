@@ -1,0 +1,97 @@
+# ConfigMap для строки подключения
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  CONNECTION_STRING: "Host=pg16-postgresql;Database=otusdz;Username=postgres;Password=postgres"
+
+---
+# Deployment для auth сервиса
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    app: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: monguard2/auth:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ConnectionStrings__Default
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: CONNECTION_STRING
+
+---
+# Service для auth
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
+---
+# Deployment для userprofile сервиса
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile-deployment
+  labels:
+    app: userprofile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      containers:
+      - name: userprofile
+        image: monguard2/userprofile:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ConnectionStrings__Default
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: CONNECTION_STRING
+
+---
+# Service для userprofile
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile-service
+spec:
+  selector:
+    app: userprofile
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP

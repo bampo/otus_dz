@@ -6,7 +6,7 @@ auth:
   postgresPassword: "postgres"
 
 persistence:
-  enabled: true
+  enabled: false
   size: 100Mi
 
 resources:
