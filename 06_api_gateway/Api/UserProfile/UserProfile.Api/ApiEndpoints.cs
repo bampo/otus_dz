@@ -52,7 +52,7 @@ public partial class Program
             {
                 if (!GetUserId(context, out var userId))
                 {
-                    log.LogWarning("X-User-Id was not profilded");
+                    log.LogWarning("X-User-Id was not provided");
                     return Results.Unauthorized();
                 }
 
@@ -71,7 +71,7 @@ public partial class Program
             {
                 if (!GetUserId(context, out var userId))
                 {
-                    log.LogWarning("X-User-Id was not profilded");
+                    log.LogWarning("X-User-Id was not provided");
                     return Results.Unauthorized();
                 }
                 if (profileDto.UserId != userId)

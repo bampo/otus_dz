@@ -1,7 +1,7 @@
 {
-	"id": "c1f6d19e-fdbb-4307-a6e7-f192387fff4b",
+	"id": "70769301-8ac7-4816-8ffd-a9d922a41dff",
 	"name": "OTUS_DZ_06_ApiGateway",
-	"timestamp": "2025-04-01T08:21:47.202Z",
+	"timestamp": "2025-04-04T06:24:09.699Z",
 	"collection_id": "1699867-15caf9cd-6366-4012-8001-df499670450f",
 	"folder_id": 0,
 	"environment_id": "1699867-4953d168-bbc0-44aa-b8bd-940da186117b",
@@ -9,14 +9,14 @@
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-04-01T08:21:44.534Z",
+	"startedAt": "2025-04-04T06:24:07.019Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "7c608142-a2c3-4de6-8a4c-186c8493df74",
 			"name": "11_Register_User1_OK",
 			"url": "http:///profile/register",
-			"time": 495,
+			"time": 527,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -31,7 +31,7 @@
 				}
 			},
 			"times": [
-				495
+				527
 			],
 			"allTests": [
 				{
@@ -43,7 +43,7 @@
 			"id": "14a555e0-aee3-411e-889c-dbf98745264d",
 			"name": "12_Get_User1_Error_E401",
 			"url": "http://arch.homework/profile/profile",
-			"time": 170,
+			"time": 67,
 			"responseCode": {
 				"code": 401,
 				"name": "Unauthorized"
@@ -58,7 +58,7 @@
 				}
 			},
 			"times": [
-				170
+				67
 			],
 			"allTests": [
 				{
@@ -97,7 +97,7 @@
 			"id": "86247347-52e7-4364-9649-075365fb7398",
 			"name": "14_Login_User1_OK",
 			"url": "http://arch.homework/auth/login",
-			"time": 655,
+			"time": 705,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -112,7 +112,7 @@
 				}
 			},
 			"times": [
-				655
+				705
 			],
 			"allTests": [
 				{
@@ -124,7 +124,7 @@
 			"id": "e3a59b5f-588d-4b88-89a9-ce2ba8e8f9e8",
 			"name": "15_Get_User1_Profile_OK",
 			"url": "http://arch.homework/profile/profile",
-			"time": 125,
+			"time": 132,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -139,7 +139,7 @@
 				}
 			},
 			"times": [
-				125
+				132
 			],
 			"allTests": [
 				{
@@ -178,7 +178,7 @@
 			"id": "d7a12ecc-600c-4aec-b8ac-262426b6a2ad",
 			"name": "17_Get_User1_Profile_OK",
 			"url": "http://arch.homework/profile/profile",
-			"time": 9,
+			"time": 11,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -193,7 +193,7 @@
 				}
 			},
 			"times": [
-				9
+				11
 			],
 			"allTests": [
 				{
@@ -205,7 +205,7 @@
 			"id": "65167bc7-b6cc-4010-979d-925cae4369e9",
 			"name": "21_Register_User2_OK",
 			"url": "http://arch.homework/profile/register",
-			"time": 79,
+			"time": 80,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -220,7 +220,7 @@
 				}
 			},
 			"times": [
-				79
+				80
 			],
 			"allTests": [
 				{
@@ -232,7 +232,7 @@
 			"id": "e1c1182b-c37e-48bf-9249-a6a8b7b83c5d",
 			"name": "22_Login_User2_OK",
 			"url": "http://arch.homework/auth/login",
-			"time": 76,
+			"time": 77,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -247,7 +247,7 @@
 				}
 			},
 			"times": [
-				76
+				77
 			],
 			"allTests": [
 				{
@@ -311,7 +311,7 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 1665,
+	"totalTime": 1655,
 	"collection": {
 		"requests": [
 			{

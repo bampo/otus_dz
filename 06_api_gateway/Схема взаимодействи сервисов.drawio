@@ -1,0 +1,170 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.2.5">
+  <diagram name="Page-1" id="e3a06f82-3646-2815-327d-82caf3d4e204">
+    <mxGraphModel dx="1273" dy="743" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" style=";html=1;" />
+        <mxCell id="1" style=";html=1;" parent="0" />
+        <mxCell id="ug4-ROMUMRrSyZOInh---11" value="" style="points=[[0,0.65,0,0,0],[0,0.795,0,0,0],[0.35,0,0,0,0],[0.67,1,0,0,0],[0.98,0.51,0,0,0],[0.99,0.88,0,0,0],[1,0.71,0,0,0]];verticalLabelPosition=bottom;sketch=0;html=1;verticalAlign=top;aspect=fixed;align=center;pointerEvents=1;shape=mxgraph.cisco19.user;fillColor=#005073;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="140" y="477.35" width="110" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.945;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---4" target="ug4-ROMUMRrSyZOInh---6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="410" as="sourcePoint" />
+            <mxPoint x="850" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---17" value="/auth" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---16">
+          <mxGeometry x="-0.2775" y="-1" relative="1" as="geometry">
+            <mxPoint y="94" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---48" value="/auth" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---16">
+          <mxGeometry x="-0.3228" y="-2" relative="1" as="geometry">
+            <mxPoint x="-2" y="-136" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---50" value="200 OK + X-User-Id&amp;nbsp;&lt;div&gt;/ 401 Unathorized&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---16">
+          <mxGeometry x="-0.7212" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---59" value="/auth" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---16">
+          <mxGeometry x="0.6705" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---56" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="920" y="360" width="190" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---5" value="&lt;b&gt;user&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;profile-service&lt;/span&gt;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="ug4-ROMUMRrSyZOInh---56">
+          <mxGeometry width="190" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---45" value="/register" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---56">
+          <mxGeometry y="36" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---46" value="/profile" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---56">
+          <mxGeometry y="90" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---4" target="ug4-ROMUMRrSyZOInh---46">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="910" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="930" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---52" value="/profile" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---15">
+          <mxGeometry x="0.0414" y="-5" relative="1" as="geometry">
+            <mxPoint x="-5" y="-58" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---53" value="? /auth == 200 OK&lt;div&gt;+ X-User-Id Header&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---15">
+          <mxGeometry x="-0.8334" y="1" relative="1" as="geometry">
+            <mxPoint x="47" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---58" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="540" y="180" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---6" value="&lt;b&gt;auth-service&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;verticalAlign=bottom;" vertex="1" parent="ug4-ROMUMRrSyZOInh---58">
+          <mxGeometry width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---42" value="/auth" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---58">
+          <mxGeometry x="160" y="27" width="40" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---43" value="/login" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---58">
+          <mxGeometry x="10" y="27" width="100" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="ug4-ROMUMRrSyZOInh---58" source="ug4-ROMUMRrSyZOInh---42" target="ug4-ROMUMRrSyZOInh---42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.139;entryY=0.003;entryDx=0;entryDy=0;strokeColor=default;startArrow=classic;startFill=1;entryPerimeter=0;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---43" target="ug4-ROMUMRrSyZOInh---4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="140" as="targetPoint" />
+            <mxPoint x="480" y="170" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="510" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---39" value="Token" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---21">
+          <mxGeometry x="0.2468" y="2" relative="1" as="geometry">
+            <mxPoint x="-2" y="57" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---49" value="/login" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---21">
+          <mxGeometry x="-0.6667" y="-1" relative="1" as="geometry">
+            <mxPoint y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---4" value="&lt;b&gt;Nginx Ingress Api Gateway&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="460" y="430" width="360" height="269.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---31" value="Методы без авторизации" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="453.27171134755986" width="200" height="72.22255245794447" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---29" value="/auth/login" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---31">
+          <mxGeometry x="20" y="24.074184152648158" width="100" height="20.86429293229507" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---30" value="/profile/register" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---31">
+          <mxGeometry x="20" y="44.93847708494323" width="100" height="20.86429293229507" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---32" value="Методы с авторизацией" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="570.0031760090352" width="200" height="56.17309635617903" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---33" value="/profile/profile" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="ug4-ROMUMRrSyZOInh---32">
+          <mxGeometry x="20" y="24.074184152648158" width="100" height="20.86429293229507" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---11" target="ug4-ROMUMRrSyZOInh---29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---37" value="/auth/login" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---36">
+          <mxGeometry y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.71;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---11" target="ug4-ROMUMRrSyZOInh---30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="169.99999999999994" y="449.9999999999999" as="sourcePoint" />
+            <mxPoint x="412.2" y="480.66999999999996" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="510" y="555" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---34" value="./profile/register" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---12">
+          <mxGeometry x="-0.0164" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.99;exitY=0.88;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---11" target="ug4-ROMUMRrSyZOInh---33">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="249" y="577" />
+              <mxPoint x="340" y="577" />
+              <mxPoint x="340" y="605" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---41" value="./profile/profile" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---40">
+          <mxGeometry x="-0.0112" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ug4-ROMUMRrSyZOInh---31" target="ug4-ROMUMRrSyZOInh---45">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="507" />
+              <mxPoint x="830" y="409" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ug4-ROMUMRrSyZOInh---54" value="/register" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ug4-ROMUMRrSyZOInh---51">
+          <mxGeometry x="0.828" relative="1" as="geometry">
+            <mxPoint x="-26" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
