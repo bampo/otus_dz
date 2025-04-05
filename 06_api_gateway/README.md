@@ -1,10 +1,15 @@
 # Описание схемы взаимодействия сервисов
 
-## Для `/profile/register`
+## Регистрация пользователя `/profile/register`
 - Клиент отправляет `GET /profile/register` → **Nginx** → `GET /register` → **`userprofile-service`** → Ответ → Клиент (без аутентификации).
 
-## Для `/profile/profile`
-1. Клиент отправляет `GET /profile/profile` → **Nginx Ingress**.
+## Получение токена авторизации `/auth/login`
+1. Клиент отправляет `POST /auth/login` → **Nginx Ingress**.
+2. Nginx отправляет `POST /auth` → **`auth-service`**
+3. **`auth-service`** отправляет `200 + JWT токен` клиенту или `401`.
+
+## Получение профиля пользователя `/profile/profile`
+1. Клиент отправляет `GET /profile/profile + JWT token` → **Nginx Ingress**.
 2. Nginx отправляет `GET /auth` → **`auth-service`** (пересылает заголовки клиента).
 3. **`auth-service`**:
    - Проверяет токен.
