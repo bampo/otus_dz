@@ -19,6 +19,11 @@
 
 # Установка и настройка сервисов
 
+## Предварительные условия
+
+- Ingress Nginx доступен по адресу arch.homework
+
+
 ## Перейти в каталог Kuber
 
 `cd Kuber`
@@ -36,6 +41,8 @@
 ### Результат: 
 в консоли отобразится справочный вывод об использовании Helm пакета и сервиса PG
 
+Нужно убедиться в логах пода, что PG запустился и принимает соединения.
+
 ## Установить сервисы
 
 `kubectl apply -f ./services.yaml --namespace myns`
@@ -49,7 +56,7 @@ deployment.apps/userprofile-deployment created
 service/userprofile-service created
 ```
 
-## Установить ingress правила (для Nginx Ingress Controller)
+## Добавить ingress правила (для Nginx Ingress Controller)
 
 `kubectl apply -f ./ing.yaml --namespace myns`
 
@@ -72,7 +79,7 @@ ingress.networking.k8s.io/profile-ingress-use-auth created
 - Запустить тесты для коллекции *OTUS_DZ_06_ApiGateway*
 
 ### Результат:
-[Export результатов тестов из Postman](Postman/OTUS_DZ_06_ApiGateway.postman_test_run.json)
+[Json файл с результатами тестов из Postman](Postman/OTUS_DZ_06_ApiGateway.postman_test_run.json)
 
 #### Окно с выводом ( не полностью )
 ![Вывод в Postman](Postman/test_results.jpg)

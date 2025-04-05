@@ -13,9 +13,29 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status must be 201\", function () {\r",
+							"pm.test(\"Status must be 201.\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							"let userId1 = pm.response.json().userId;\r",
+							"console.log('userId1 =' + userId1);\r",
+							"pm.environment.set ('userId1', userId1);\r",
+							"pm.test(\"userId1 = \" + userId1, function () {\r",
+							"    userId1 > 0;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							" const uuid = require('uuid');\r",
+							" let user1 = uuid();\r",
+							" console.log('user1 name = ' + user1);\r",
+							" pm.environment.set('user1', user1);"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -30,7 +50,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"user1@test.mail\",\r\n  \"password\": \"12345\"\r\n}",
+					"raw": "{\r\n  \"email\": \"{{user1}}@test.mail\",\r\n  \"password\": \"12345\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +72,7 @@
 			"response": []
 		},
 		{
-			"name": "12_Get_User1_Error_E401",
+			"name": "12_Get_User1_No_Token_Error_E401",
 			"event": [
 				{
 					"listen": "test",
@@ -88,7 +108,7 @@
 			"response": []
 		},
 		{
-			"name": "13_Update_User1_E401",
+			"name": "13_Update_User1_No_Token_E401",
 			"event": [
 				{
 					"listen": "test",
@@ -105,8 +125,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"packages": {},
-						"type": "text/javascript"
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -124,7 +147,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 1,\r\n    \"firstName\": \"User1First\",\r\n    \"lastName\": \"User1Last\",\r\n    \"phone\": \"123123123\",\r\n    \"avatarUri\": \"http://xzy.abc\",\r\n    \"age\": 20\r\n}",
+					"raw": "{\r\n    \"userId\": {{userId1}},\r\n    \"firstName\": \"User1First\",\r\n    \"lastName\": \"User1Last\",\r\n    \"phone\": \"123123123\",\r\n    \"avatarUri\": \"http://xzy.abc\",\r\n    \"age\": 20\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -156,7 +179,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"let jsonData = pm.response.json();\r",
-							"pm.collectionVariables.set(\"user1_token\", jsonData.token);\r",
+							"pm.environment.set(\"user1_token\", jsonData.token);\r",
 							""
 						],
 						"type": "text/javascript",
@@ -172,7 +195,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"login\" : \"user1@test.mail\",\r\n    \"password\" : \"12345\"\r\n}",
+					"raw": "{\r\n    \"login\" : \"{{user1}}@test.mail\",\r\n    \"password\" : \"12345\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -194,15 +217,15 @@
 			"response": []
 		},
 		{
-			"name": "15_Get_User1_Profile_OK",
+			"name": "15_Get_User1_Profile_With_Token_OK",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"var token = pm.collectionVariables.get('user1_token');\r",
+							"var token = pm.environment.get('user1_token');\r",
 							"pm.request.addHeader({key: \"Authorization\", value:`Bearer ${token}`});\r",
-							"pm.request.auth = token;"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -261,7 +284,7 @@
 			"response": []
 		},
 		{
-			"name": "16_Update_User_1_Profile_OK",
+			"name": "16_Update_User_1_Profile_With_Token_OK",
 			"event": [
 				{
 					"listen": "test",
@@ -279,9 +302,9 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"var token = pm.collectionVariables.get('user1_token');\r",
+							"var token = pm.environment.get('user1_token');\r",
 							"pm.request.addHeader({key: \"Authorization\", value:`Bearer ${token}`});\r",
-							"pm.request.auth = token;"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -296,7 +319,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\" : 1,\r\n    \"firstName\" : \"User1First\",\r\n    \"lastName\" : \"User1Last\",\r\n    \"phone\" : \"1234567890\",\r\n    \"avatarUri\" : \"https://ava.pic/av1.jpg\",\r\n    \"age\" : \"30\"\r\n}",
+					"raw": "{\r\n    \"userId\" : {{userId1}},\r\n    \"firstName\" : \"User1First\",\r\n    \"lastName\" : \"User1Last\",\r\n    \"phone\" : \"1234567890\",\r\n    \"avatarUri\" : \"https://ava.pic/av1.jpg\",\r\n    \"age\" : \"30\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -318,15 +341,15 @@
 			"response": []
 		},
 		{
-			"name": "17_Get_User1_Profile_OK",
+			"name": "17_Get_User1_Profile_With_Token_OK",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"var token = pm.collectionVariables.get('user1_token');\r",
+							"var token = pm.environment.get('user1_token');\r",
 							"pm.request.addHeader({key: \"Authorization\", value:`Bearer ${token}`});\r",
-							"pm.request.auth = token;"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -337,15 +360,16 @@
 					"script": {
 						"exec": [
 							"const expectedJson = {\r",
-							"    \"userId\": 1,\r",
+							"    \"userId\": pm.environment.get('userId1'),\r",
 							"    \"firstName\": \"User1First\",\r",
 							"    \"lastName\": \"User1Last\",\r",
 							"    \"phone\": \"1234567890\",\r",
 							"    \"avatarUri\": \"https://ava.pic/av1.jpg\",\r",
 							"    \"age\": 30\r",
 							"};\r",
+							"\r",
 							"const actualJson = pm.response.json();\r",
-							"pm.test(\"User1 json not equals expected json\", function () {\r",
+							"pm.test(\"User1 json equals expected json\", function () {\r",
 							"    pm.expect(actualJson).to.deep.equal(expectedJson);\r",
 							"});"
 						],
@@ -381,7 +405,10 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							" const uuid = require('uuid');\r",
+							" let user2 = uuid();\r",
+							" console.log('user2 name = ' + user2);\r",
+							" pm.environment.set('user2', user2);"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -393,7 +420,15 @@
 						"exec": [
 							"pm.test(\"Status must be 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							"\r",
+							"let userId2 = pm.response.json().userId;\r",
+							"console.log('userId1 =' + userId2);\r",
+							"pm.environment.set ('userId2', userId2);\r",
+							"pm.test(\"userId2 = \" + userId2, function () {\r",
+							"    userId2 > 0;\r",
+							"});\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -408,7 +443,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"user2@test2.em\",\r\n  \"password\": \"54321\"\r\n}",
+					"raw": "{\r\n  \"email\": \"{{user2}}@test2.em\",\r\n  \"password\": \"54321\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -440,7 +475,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"let jsonData = pm.response.json();\r",
-							"pm.collectionVariables.set(\"user2_token\", jsonData.token);"
+							"pm.environment.set(\"user2_token\", jsonData.token);"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -449,8 +484,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"packages": {},
-						"type": "text/javascript"
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -462,7 +500,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"login\" : \"user2@test2.em\",\r\n    \"password\" : \"54321\"\r\n}",
+					"raw": "{\r\n    \"login\" : \"{{user2}}@test2.em\",\r\n    \"password\" : \"54321\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -484,15 +522,15 @@
 			"response": []
 		},
 		{
-			"name": "23_Get_User1_With_User2_Token__Receive_User2_OK",
+			"name": "23_Get_User2_Profile_OK",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"var token = pm.collectionVariables.get('user2_token');\r",
+							"var token = pm.environment.get('user2_token');\r",
 							"pm.request.addHeader({key: \"Authorization\", value:`Bearer ${token}`});\r",
-							"pm.request.auth = token;"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -502,9 +540,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"let userId = pm.response.json().userId; // Extract userId from response body\r",
-							"pm.test(\"UserId should be 2\", function () {\r",
-							"    pm.expect(2).to.eq(userId);\r",
+							"let userId = pm.response.json().userId; \r",
+							"let userId2 = pm.environment.get('userId2');\r",
+							"pm.test(\"userId should be \" + userId2, function () {\r",
+							"    pm.expect(userId2).to.eq(userId);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -545,9 +584,8 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"var token = pm.collectionVariables.get('user2_token');\r",
+							"var token = pm.environment.get('user2_token');\r",
 							"pm.request.addHeader({key: \"Authorization\", value:`Bearer ${token}`});\r",
-							"pm.request.auth = token;\r",
 							""
 						],
 						"type": "text/javascript",
@@ -560,7 +598,8 @@
 						"exec": [
 							"pm.test(\"Status code is 401\", function () {\r",
 							"    pm.response.to.have.status(401);\r",
-							"});"
+							"});\r",
+							"console.log('ALL TESTS WAS FINISHED');"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -575,13 +614,71 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 1,\r\n    \"firstName\": \"BAD USER\",\r\n    \"lastName\": \"BAD USER\",\r\n    \"phone\": \"BAD PHONE\",\r\n    \"avatarUri\": \"asdf\",\r\n    \"age\": 1\r\n}",
+					"raw": "{\r\n    \"userId\": {{userId1}}, // ID другого пользователя\r\n    \"firstName\": \"BAD USER\",\r\n    \"lastName\": \"BAD USER\",\r\n    \"phone\": \"BAD PHONE\",\r\n    \"avatarUri\": \"asdf\",\r\n    \"age\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
+				"url": {
+					"raw": "http://{{baseUrl}}/profile/profile",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"profile",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "25_Get_User1_Profile_With_Token_Unchanged_OK",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var token = pm.environment.get('user1_token');\r",
+							"pm.request.addHeader({key: \"Authorization\", value:`Bearer ${token}`});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const expectedJson = {\r",
+							"    \"userId\": pm.environment.get('userId1'),\r",
+							"    \"firstName\": \"User1First\",\r",
+							"    \"lastName\": \"User1Last\",\r",
+							"    \"phone\": \"1234567890\",\r",
+							"    \"avatarUri\": \"https://ava.pic/av1.jpg\",\r",
+							"    \"age\": 30\r",
+							"};\r",
+							"\r",
+							"const actualJson = pm.response.json();\r",
+							"pm.test(\"User1 json equals expected json\", function () {\r",
+							"    pm.expect(actualJson).to.deep.equal(expectedJson);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "http://{{baseUrl}}/profile/profile",
 					"protocol": "http",
@@ -624,14 +721,6 @@
 			"key": "base_url",
 			"value": "arch.homework",
 			"type": "string"
-		},
-		{
-			"key": "user1_token",
-			"value": ""
-		},
-		{
-			"key": "user2_token",
-			"value": ""
 		}
 	]
 }
