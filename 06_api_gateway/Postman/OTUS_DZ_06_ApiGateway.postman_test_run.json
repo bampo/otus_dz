@@ -1,49 +1,55 @@
 {
-	"id": "70769301-8ac7-4816-8ffd-a9d922a41dff",
+	"id": "3392fc23-9f24-4cdb-b415-0fcc55c02604",
 	"name": "OTUS_DZ_06_ApiGateway",
-	"timestamp": "2025-04-04T06:24:09.699Z",
+	"timestamp": "2025-04-05T07:04:04.032Z",
 	"collection_id": "1699867-15caf9cd-6366-4012-8001-df499670450f",
 	"folder_id": 0,
 	"environment_id": "1699867-4953d168-bbc0-44aa-b8bd-940da186117b",
-	"totalPass": 11,
+	"totalPass": 14,
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-04-04T06:24:07.019Z",
+	"startedAt": "2025-04-05T07:04:02.586Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "7c608142-a2c3-4de6-8a4c-186c8493df74",
 			"name": "11_Register_User1_OK",
-			"url": "http:///profile/register",
-			"time": 527,
+			"url": "http://arch.homework/profile/register",
+			"time": 83,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
 			},
 			"tests": {
-				"Status must be 201": true
+				"Status must be 201.": true,
+				"userId1 = 20": true
 			},
 			"testPassFailCounts": {
-				"Status must be 201": {
+				"Status must be 201.": {
+					"pass": 1,
+					"fail": 0
+				},
+				"userId1 = 20": {
 					"pass": 1,
 					"fail": 0
 				}
 			},
 			"times": [
-				527
+				83
 			],
 			"allTests": [
 				{
-					"Status must be 201": true
+					"Status must be 201.": true,
+					"userId1 = 20": true
 				}
 			]
 		},
 		{
 			"id": "14a555e0-aee3-411e-889c-dbf98745264d",
-			"name": "12_Get_User1_Error_E401",
+			"name": "12_Get_User1_No_Token_Error_E401",
 			"url": "http://arch.homework/profile/profile",
-			"time": 67,
+			"time": 4,
 			"responseCode": {
 				"code": 401,
 				"name": "Unauthorized"
@@ -58,7 +64,7 @@
 				}
 			},
 			"times": [
-				67
+				4
 			],
 			"allTests": [
 				{
@@ -68,9 +74,9 @@
 		},
 		{
 			"id": "6125a5a3-5294-4c69-8147-f677e23aae4a",
-			"name": "13_Update_User1_E401",
+			"name": "13_Update_User1_No_Token_E401",
 			"url": "http://arch.homework/profile/profile",
-			"time": 7,
+			"time": 3,
 			"responseCode": {
 				"code": 401,
 				"name": "Unauthorized"
@@ -85,7 +91,7 @@
 				}
 			},
 			"times": [
-				7
+				3
 			],
 			"allTests": [
 				{
@@ -97,7 +103,7 @@
 			"id": "86247347-52e7-4364-9649-075365fb7398",
 			"name": "14_Login_User1_OK",
 			"url": "http://arch.homework/auth/login",
-			"time": 705,
+			"time": 74,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -112,7 +118,7 @@
 				}
 			},
 			"times": [
-				705
+				74
 			],
 			"allTests": [
 				{
@@ -122,9 +128,9 @@
 		},
 		{
 			"id": "e3a59b5f-588d-4b88-89a9-ce2ba8e8f9e8",
-			"name": "15_Get_User1_Profile_OK",
+			"name": "15_Get_User1_Profile_With_Token_OK",
 			"url": "http://arch.homework/profile/profile",
-			"time": 132,
+			"time": 5,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -139,7 +145,7 @@
 				}
 			},
 			"times": [
-				132
+				5
 			],
 			"allTests": [
 				{
@@ -149,115 +155,7 @@
 		},
 		{
 			"id": "4f5aa46c-abf8-48b7-94c5-654cdae97f0b",
-			"name": "16_Update_User_1_Profile_OK",
-			"url": "http://arch.homework/profile/profile",
-			"time": 37,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				37
-			],
-			"allTests": [
-				{
-					"Status code is 200": true
-				}
-			]
-		},
-		{
-			"id": "d7a12ecc-600c-4aec-b8ac-262426b6a2ad",
-			"name": "17_Get_User1_Profile_OK",
-			"url": "http://arch.homework/profile/profile",
-			"time": 11,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"User1 json not equals expected json": true
-			},
-			"testPassFailCounts": {
-				"User1 json not equals expected json": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				11
-			],
-			"allTests": [
-				{
-					"User1 json not equals expected json": true
-				}
-			]
-		},
-		{
-			"id": "65167bc7-b6cc-4010-979d-925cae4369e9",
-			"name": "21_Register_User2_OK",
-			"url": "http://arch.homework/profile/register",
-			"time": 80,
-			"responseCode": {
-				"code": 201,
-				"name": "Created"
-			},
-			"tests": {
-				"Status must be 201": true
-			},
-			"testPassFailCounts": {
-				"Status must be 201": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				80
-			],
-			"allTests": [
-				{
-					"Status must be 201": true
-				}
-			]
-		},
-		{
-			"id": "e1c1182b-c37e-48bf-9249-a6a8b7b83c5d",
-			"name": "22_Login_User2_OK",
-			"url": "http://arch.homework/auth/login",
-			"time": 77,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				77
-			],
-			"allTests": [
-				{
-					"Status code is 200": true
-				}
-			]
-		},
-		{
-			"id": "8dd5b313-a44d-4e06-afb9-ab861f20408c",
-			"name": "23_Get_User1_With_User2_Token__Receive_User2_OK",
+			"name": "16_Update_User_1_Profile_With_Token_OK",
 			"url": "http://arch.homework/profile/profile",
 			"time": 7,
 			"responseCode": {
@@ -265,10 +163,10 @@
 				"name": "OK"
 			},
 			"tests": {
-				"UserId should be 2": true
+				"Status code is 200": true
 			},
 			"testPassFailCounts": {
-				"UserId should be 2": {
+				"Status code is 200": {
 					"pass": 1,
 					"fail": 0
 				}
@@ -278,7 +176,121 @@
 			],
 			"allTests": [
 				{
-					"UserId should be 2": true
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "d7a12ecc-600c-4aec-b8ac-262426b6a2ad",
+			"name": "17_Get_User1_Profile_With_Token_OK",
+			"url": "http://arch.homework/profile/profile",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"User1 json equals expected json": true
+			},
+			"testPassFailCounts": {
+				"User1 json equals expected json": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"User1 json equals expected json": true
+				}
+			]
+		},
+		{
+			"id": "65167bc7-b6cc-4010-979d-925cae4369e9",
+			"name": "21_Register_User2_OK",
+			"url": "http://arch.homework/profile/register",
+			"time": 75,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status must be 201": true,
+				"userId2 = 21": true
+			},
+			"testPassFailCounts": {
+				"Status must be 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"userId2 = 21": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				75
+			],
+			"allTests": [
+				{
+					"Status must be 201": true,
+					"userId2 = 21": true
+				}
+			]
+		},
+		{
+			"id": "e1c1182b-c37e-48bf-9249-a6a8b7b83c5d",
+			"name": "22_Login_User2_OK",
+			"url": "http://arch.homework/auth/login",
+			"time": 72,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				72
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "8dd5b313-a44d-4e06-afb9-ab861f20408c",
+			"name": "23_Get_User2_Profile_OK",
+			"url": "http://arch.homework/profile/profile",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"userId should be 21": true
+			},
+			"testPassFailCounts": {
+				"userId should be 21": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"userId should be 21": true
 				}
 			]
 		},
@@ -286,7 +298,7 @@
 			"id": "1fa16ed3-5a37-4bce-835c-d1ea7b2a1036",
 			"name": "24_Update_User1_With_User2_Token_E401",
 			"url": "http://arch.homework/profile/profile",
-			"time": 5,
+			"time": 4,
 			"responseCode": {
 				"code": 401,
 				"name": "Unauthorized"
@@ -301,17 +313,44 @@
 				}
 			},
 			"times": [
-				5
+				4
 			],
 			"allTests": [
 				{
 					"Status code is 401": true
 				}
 			]
+		},
+		{
+			"id": "a615a040-cc01-42ff-8a9d-8299ddad03ec",
+			"name": "25_Get_User1_Profile_With_Token_Unchanged_OK",
+			"url": "http://arch.homework/profile/profile",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"User1 json equals expected json": true
+			},
+			"testPassFailCounts": {
+				"User1 json equals expected json": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"User1 json equals expected json": true
+				}
+			]
 		}
 	],
 	"count": 1,
-	"totalTime": 1655,
+	"totalTime": 342,
 	"collection": {
 		"requests": [
 			{
@@ -357,6 +396,10 @@
 			{
 				"id": "1fa16ed3-5a37-4bce-835c-d1ea7b2a1036",
 				"method": "PUT"
+			},
+			{
+				"id": "a615a040-cc01-42ff-8a9d-8299ddad03ec",
+				"method": "GET"
 			}
 		]
 	}
