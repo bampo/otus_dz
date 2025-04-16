@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant Client
+    participant OrderService
+    participant MessageBroker as Message Broker (Kafka)
+    participant BillingService
+    participant NotifyService
+
+
+    Client->>OrderService: POST /orders {user_id, price}
+    OrderService->>OrderService: Создает заказ (status="Pending")
+    OrderService->>MessageBroker: Publish "OrderCreated" (order_id, user_id, price)
+
+    MessageBroker->>BillingService: Consume "OrderCreated"
+    BillingService->>BillingService: Проверяет баланс
+    alt Успешное списание
+        BillingService->>MessageBroker: Publish "PaymentProcessed" (status="Approved")
+    else Недостаточно средств
+        BillingService->>MessageBroker: Publish "PaymentProcessed" (status="Rejected", reason="Insufficient funds")
+    end
+
+    MessageBroker->>NotifyService: Consume "PaymentProcessed"
+    NotifyService->>NotifyService: Логирует уведомление

@@ -1,0 +1,31 @@
+@URL=http://localhost:5078/api/billing
+@user_id=testuser1
+### Create User
+POST {{URL}}/create-user
+Content-Type: application/json
+
+{
+    "userId": "{{user_id}}"
+}
+
+### Get Balance
+
+GET {{URL}}/balance/?userid={{user_id}}
+
+### Set Deposit + 100
+POST {{URL}}/deposit
+Content-Type: application/json
+
+{
+    "userId" : "{{user_id}}",
+    "amount" : 100
+}
+
+### Set Deposit - 101
+POST {{URL}}/deposit
+Content-Type: application/json
+
+{
+    "userId" : "{{user_id}}",
+    "amount" : -101
+}

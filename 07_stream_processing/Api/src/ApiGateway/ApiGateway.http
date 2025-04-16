@@ -1,0 +1,8 @@
+@ApiGateway_HostAddress = http://localhost:5000
+@user_id=7f7785c4-bb2c-4131-a77a-32db8ac80ab0
+
+
+GET {{ApiGateway_HostAddress}}/api/billing/balance?userid={{user_id}}
+Accept: application/json
+
+###

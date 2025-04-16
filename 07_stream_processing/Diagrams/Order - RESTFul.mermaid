@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant Client
+    participant OrderService
+    participant BillingService
+    participant NotifyService
+
+    Client->>OrderService: POST /create {userId, amount}
+    OrderService->>BillingService: POST /deposit {userId, amount: -amount}    
+    alt Deposit.balance >= amount
+        BillingService-->>OrderService: 200 OK
+        OrderService->>NotifyService: POST /notification {userId, message: "Order approved"}
+        OrderService-->>Client: 201 Created {orderId, status: "APPROVED"}
+    else Deposit.balance < amount
+        BillingService-->>OrderService: 422 Unprocessable Entity {error: "InsufficientFunds"}
+        OrderService->>NotifyService: POST /notification {userId, message: "Order rejected: insufficient funds"}
+        OrderService-->>Client: 402 Payment Required {orderId, status: "REJECTED"}
+    end

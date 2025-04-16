@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C#: Order.Service Debug",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/Order/Order.Service/Order.Service.csproj"
+    },
+    {
+      "name": "C#: Billing.Service Debug",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/Billing/Billing.Service/Billing.Service.csproj"
+    },
+    {
+      "name": "C#: Notify.Service Debug",
+      "type": "dotnet",
+      "request": "launch",
+      //"preLaunchTask": "build Notify.Service",
+      "projectPath": "${workspaceFolder}/Notify/Notify.Service/Notify.Service.csproj",
+      "internalConsoleOptions": "neverOpen",
+      "windows": {}
+    },
+
+  ]
+}

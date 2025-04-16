@@ -1,0 +1,10 @@
+@URL=https://localhost:7073/api/order
+@user_id=7f7785c4-bb2c-4131-a77a-32db8ac80ab0
+
+POST {{URL}}/create
+Content-Type: application/json
+
+{
+    "userId" : "{{user_id}}",
+    "price" : 100
+}

@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "build ShopApp Solution",
+			"command": "pwsh -Command \"dotnet build\""
+		},
+		{
+			"type": "shell",
+			"group": "build",
+			"label": "build Notify.Service",
+			"command": "dotnet",
+			"args": [ "build", "Notify/Notify.Service"],
+			"options":{
+        "shell": {
+          "executable": "pwsh.exe",
+          "args": ["-Command"]
+        }
+	  	}
+	  }
+	]
+}

@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant Client
+    participant OrderService
+    participant MessageBroker as Message Broker (Kafka)
+    participant BillingService
+    participant NotificationService
+
+    Client->>OrderService: POST /orders {user_id, price}
+    OrderService->>MessageBroker: Publish "OrderCreated" (order_id, user_id, price)
+    MessageBroker->>BillingService: Consume "OrderCreated"
+    BillingService->>BillingService: Проверяет баланс, списывает средства
+    alt Успешное списание
+        BillingService->>MessageBroker: Publish "PaymentApproved" (order_id, user_id)
+    else Ошибка (недостаточно средств)
+        BillingService->>MessageBroker: Publish "PaymentRejected" (order_id, user_id, reason)
+        MessageBroker->>OrderService: Consume "PaymentRejected"
+        OrderService->>OrderService: Обновляет статус заказа на "Отклонен"
+    end
+    MessageBroker->>NotificationService: Consume "PaymentApproved" / "PaymentRejected"
+    NotificationService->>NotificationService: Сохраняет уведомление в БД
+    NotificationService->>MessageBroker: (опционально) Publish "NotificationSent"

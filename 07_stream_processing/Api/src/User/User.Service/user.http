@@ -1,0 +1,9 @@
+@URL=https://localhost:7071/api/user
+@user_id=testuser1
+### Create User
+POST {{URL}}/create
+Content-Type: application/json
+
+{
+    "userId": "{{user_id}}"
+}

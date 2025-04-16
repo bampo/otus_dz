@@ -1,0 +1,270 @@
+{
+	"id": "c19bd4e8-d354-4c4a-b6a6-a80ddd54e256",
+	"name": "OTUS_DZ_07_Streaming",
+	"timestamp": "2025-04-15T19:07:28.923Z",
+	"collection_id": "1699867-9a0927c3-7611-48c3-943e-f8c523bbcbf3",
+	"folder_id": 0,
+	"environment_id": "1699867-387e0e19-ef2f-4921-a2cf-fcc065de2ee6",
+	"totalPass": 8,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-04-15T19:07:27.892Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "48550df7-4f23-4f15-a0fb-8b7bebed9430",
+			"name": "11_Create_User1_OK",
+			"url": "https://localhost:7000/api/user/create",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Create User": true
+			},
+			"testPassFailCounts": {
+				"Create User": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Create User": true
+				}
+			]
+		},
+		{
+			"id": "15dfe2d0-ab63-4c80-9f28-b7b5dad7eefd",
+			"name": "12_Set_User1_Deposit_100_OK",
+			"url": "http://arch.homework/api/billing/deposit",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Add deposit 100": true
+			},
+			"testPassFailCounts": {
+				"Add deposit 100": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Add deposit 100": true
+				}
+			]
+		},
+		{
+			"id": "9aa5a7db-36d2-4d00-9ce1-6a9ebdd961be",
+			"name": "13_Create_Order_99_OK",
+			"url": "http://arch.homework/api/order/create",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Create order OK": true
+			},
+			"testPassFailCounts": {
+				"Create order OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Create order OK": true
+				}
+			]
+		},
+		{
+			"id": "767aa04e-01a9-4573-a326-53c904c96de2",
+			"name": "14_Get_Balance_1_OK",
+			"url": "http://arch.homework/api/billing/balance/?userId=b764422c-3ddb-49bc-a968-039051c4d38f",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Get User Balance = 1": true
+			},
+			"testPassFailCounts": {
+				"Get User Balance = 1": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Get User Balance = 1": true
+				}
+			]
+		},
+		{
+			"id": "15e62d6b-a3f5-40ae-ba85-d0be5898cadc",
+			"name": "15_Get_User_Norifications_OK",
+			"url": "http://arch.homework/api/notify/notifications?userId=b764422c-3ddb-49bc-a968-039051c4d38f",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Notify_Message_Order_Created_OK": true
+			},
+			"testPassFailCounts": {
+				"Notify_Message_Order_Created_OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Notify_Message_Order_Created_OK": true
+				}
+			]
+		},
+		{
+			"id": "bd0bf430-7b99-4a30-a66d-7e6f15cc31a6",
+			"name": "21_Create_Order_2_E422",
+			"url": "http://arch.homework/api/order/create",
+			"time": 10,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Create order OK": true
+			},
+			"testPassFailCounts": {
+				"Create order OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Create order OK": true
+				}
+			]
+		},
+		{
+			"id": "294e7917-cc72-4545-b065-44e1959b7395",
+			"name": "22_Get_Balance_1_OK",
+			"url": "http://arch.homework/api/billing/balance/?userId=b764422c-3ddb-49bc-a968-039051c4d38f",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Get User Balance = 1": true
+			},
+			"testPassFailCounts": {
+				"Get User Balance = 1": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Get User Balance = 1": true
+				}
+			]
+		},
+		{
+			"id": "59662467-3f15-48c0-96cb-8c9d4fd4afdc",
+			"name": "23_Get_User_Norifications",
+			"url": "http://arch.homework/api/notify/notifications?userId=b764422c-3ddb-49bc-a968-039051c4d38f",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Notify_Message_Not_Enought_OK": true
+			},
+			"testPassFailCounts": {
+				"Notify_Message_Not_Enought_OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Notify_Message_Not_Enought_OK": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 58,
+	"collection": {
+		"requests": [
+			{
+				"id": "48550df7-4f23-4f15-a0fb-8b7bebed9430",
+				"method": "POST"
+			},
+			{
+				"id": "15dfe2d0-ab63-4c80-9f28-b7b5dad7eefd",
+				"method": "POST"
+			},
+			{
+				"id": "9aa5a7db-36d2-4d00-9ce1-6a9ebdd961be",
+				"method": "POST"
+			},
+			{
+				"id": "767aa04e-01a9-4573-a326-53c904c96de2",
+				"method": "GET"
+			},
+			{
+				"id": "15e62d6b-a3f5-40ae-ba85-d0be5898cadc",
+				"method": "GET"
+			},
+			{
+				"id": "bd0bf430-7b99-4a30-a66d-7e6f15cc31a6",
+				"method": "POST"
+			},
+			{
+				"id": "294e7917-cc72-4545-b065-44e1959b7395",
+				"method": "GET"
+			},
+			{
+				"id": "59662467-3f15-48c0-96cb-8c9d4fd4afdc",
+				"method": "GET"
+			}
+		]
+	}
+}

@@ -1,0 +1,14 @@
+@URL=http://localhost:5074/api/notify
+@user_id=7f7785c4-bb2c-4131-a77a-32db8ac80ab0
+
+### Send notification
+POST {{URL}}/notification
+Content-Type: application/json
+
+{
+    "userId": "{{user_id}}",
+    "message": "test_message"
+}
+
+### Get notifications
+GET {{URL}}/notifications?userid={{user_id}}

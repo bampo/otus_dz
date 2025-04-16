@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "9a0927c3-7611-48c3-943e-f8c523bbcbf3",
+		"name": "OTUS_DZ_07_Streaming",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1699867"
+	},
+	"item": [
+		{
+			"name": "11_Create_User1_OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create User\", function(){\r",
+							"    let j = pm.response.json();\r",
+							"    let userId = j.userId;\r",
+							"    pm.environment.set(\"userId\", userId);\r",
+							"    console.log(\"userId:\" + userId);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"user1@test.mail\",\r\n    \"password\" : \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/user/create",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12_Set_User1_Deposit_100_OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add deposit 100\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().newBalance).to.equal(100);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userId\": \"{{userId}}\",\r\n  \"amount\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/billing/deposit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"billing",
+						"deposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13_Create_Order_99_OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create order OK\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).to.include(\"Order created\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userId\": \"{{userId}}\",\r\n  \"price\": 99\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/order/create",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14_Get_Balance_1_OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get User Balance = 1\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().balance).to.equal(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/billing/balance/?userId={{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"billing",
+						"balance",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "15_Get_User_Norifications_OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Notify_Message_Order_Created_OK\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].message).to.include(\"Order created\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/notify/notifications?userId={{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"notify",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "21_Create_Order_2_E422",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create order OK\", function(){\r",
+							"    pm.response.to.have.status(422);\r",
+							"    pm.expect(pm.response.text()).to.include(\"Not enought funds\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userId\": \"{{userId}}\",\r\n  \"price\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/order/create",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "22_Get_Balance_1_OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get User Balance = 1\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().balance).to.equal(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/billing/balance/?userId={{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"billing",
+						"balance",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "23_Get_User_Norifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Notify_Message_Not_Enought_OK\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[1].message).to.include(\"Not enougth funds\");\r",
+							"});\r",
+							"console.log(\"Finished\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/notify/notifications?userId={{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"notify",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "100_LastRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/notify/notifications?userId={{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"notify",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{userId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

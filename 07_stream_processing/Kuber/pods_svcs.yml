@@ -1,0 +1,219 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config-billing
+data:
+  CONNECTION_STRING: "Host=pg16-postgresql;Database=billing;Username=postgres;Password=postgres"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config-notify
+data:
+  CONNECTION_STRING: "Host=pg16-postgresql;Database=notify;Username=postgres;Password=postgres"
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: monguard2/otus_dz_7_users_svc:1.0
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    app: user-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: monguard2/otus_dz_7_orders_svc:1.0
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  selector:
+    app: order-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notify-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notify-service
+  template:
+    metadata:
+      labels:
+        app: notify-service
+    spec:
+      containers:
+      - name: notify-service
+        image: monguard2/otus_dz_7_notify_svc:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ConnectionStrings__Default
+          valueFrom:
+            configMapKeyRef:
+              name: db-config-notify
+              key: CONNECTION_STRING
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notify-service
+spec:
+  selector:
+    app: notify-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing-service
+  template:
+    metadata:
+      labels:
+        app: billing-service
+    spec:
+      containers:
+      - name: billing-service
+        image: monguard2/otus_dz_7_billing_svc:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ConnectionStrings__Default
+          valueFrom:
+            configMapKeyRef:
+              name: db-config-billing
+              key: CONNECTION_STRING
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing-service
+spec:
+  selector:
+    app: billing-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway-svc
+  template:
+    metadata:
+      labels:
+        app: apigateway-svc
+    spec:
+      containers:
+      - name: apigateway-svc
+        image: monguard2/otus_dz_7_apigateway_svc:1.0
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway-svc
+spec:
+  selector:
+    app: apigateway-svc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apigateway-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: arch.homework
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apigateway-svc
+            port:
+              number: 80
