@@ -6,18 +6,29 @@
 
 ### Только HTTP
 
+#### Sequence Diagram
+
 ![alt text](<Diagrams/Order - Restful.png>)
 
 ### Событийное взаимодействие с использование брокера сообщений для нотификаций (уведомлений)
 
+#### Sequence Diagram
 ![alt text](<Diagrams/Order - EventNotification.png>)
 
 ### Event Collaboration cтиль взаимодействия с использованием брокера сообщений
 
+#### Sequence Diagram
 ![alt text](<Diagrams/Order - EventCollaboration.png>)
 
 В итоге выбрал вариант - **только HTTP**, как наиболее простой и удовлетовряющий требованиям задания. 
 
+
+## Описание интерфейсов API на IDL (OpenAPI)
+- [Billing API](IDL/billing-service.json)
+
+- [Order API](IDL/order-service.json)
+
+- [Notify API](IDL/notify-service.json)
 
 ## Установка и настройка сервисов
 
@@ -47,7 +58,7 @@
 
 ## Установить сервисы и ingress
 
-`kubectl apply -f ./pods_svcs.yaml --namespace myns`
+`kubectl apply -f ./pods_svcs.yml --namespace myns`
 
 ### Результат: в консоли
 
