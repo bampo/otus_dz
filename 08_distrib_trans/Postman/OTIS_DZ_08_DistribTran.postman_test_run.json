@@ -1,0 +1,294 @@
+{
+	"id": "8a6c7a3a-54a8-4716-8075-83fa76aa8bbd",
+	"name": "OTIS_DZ_08_DistribTran",
+	"timestamp": "2025-05-01T06:03:38.379Z",
+	"collection_id": "1699867-1d20ed29-180c-40c3-859b-01c9315f3e56",
+	"folder_id": 0,
+	"environment_id": "1699867-387e0e19-ef2f-4921-a2cf-fcc065de2ee6",
+	"totalPass": 12,
+	"delay": "50",
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-05-01T06:03:36.838Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "8bb3e995-d2d3-4467-b5eb-cc32421291a1",
+			"name": "Order_Create_Success",
+			"url": "http://localhost:5000/api/orders/",
+			"time": 19,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				19
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "8c98bbfe-612d-4f4c-be15-19a189b120af",
+			"name": "Order_Completed_OK",
+			"url": "http://arch.homework/api/orders/559927e5-a58d-46d2-b885-a993ea8e827d",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Order is Complete": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Order is Complete": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Order is Complete": true
+				}
+			]
+		},
+		{
+			"id": "f3ba3411-9122-472c-8c61-2db3ebeceb31",
+			"name": "Order_Create_Payment_Wrong",
+			"url": "http://arch.homework/api/orders/",
+			"time": 8,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "7e9f1424-7025-4d47-a5e3-30819eca9875",
+			"name": "Order_Get_Failed_Payment",
+			"url": "http://arch.homework/api/orders/42b214d6-0ec2-4e51-ae64-7fc60e81427c",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Payment failed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Payment failed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Payment failed": true
+				}
+			]
+		},
+		{
+			"id": "9d38f8de-d6d1-4da1-a24d-91447702b9a7",
+			"name": "Order_Create_StockReserve_Wrong",
+			"url": "http://arch.homework/api/orders/",
+			"time": 8,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "ab1b8842-f7e1-4b5b-8bf2-48d450d283d5",
+			"name": "Order_Get_Failed_StockReservation",
+			"url": "http://arch.homework/api/orders/205c1376-4ee3-4820-aa92-a31045a89424",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Stock Reserve failed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Stock Reserve failed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Stock Reserve failed": true
+				}
+			]
+		},
+		{
+			"id": "420a1f11-08d7-4141-815f-8ac19edd0a19",
+			"name": "Order_Create_Delivery_Wrong",
+			"url": "http://arch.homework/api/orders/",
+			"time": 8,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "887dc370-b2f9-4ca3-95c7-6dda33b60a53",
+			"name": "Order_Get_Failed_Delivery",
+			"url": "http://arch.homework/api/orders/598a7006-9569-4086-a1e9-35db0be218b5",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Delivery failed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Delivery failed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Delivery failed": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 62,
+	"collection": {
+		"requests": [
+			{
+				"id": "8bb3e995-d2d3-4467-b5eb-cc32421291a1",
+				"method": "POST"
+			},
+			{
+				"id": "8c98bbfe-612d-4f4c-be15-19a189b120af",
+				"method": "GET"
+			},
+			{
+				"id": "f3ba3411-9122-472c-8c61-2db3ebeceb31",
+				"method": "POST"
+			},
+			{
+				"id": "7e9f1424-7025-4d47-a5e3-30819eca9875",
+				"method": "GET"
+			},
+			{
+				"id": "9d38f8de-d6d1-4da1-a24d-91447702b9a7",
+				"method": "POST"
+			},
+			{
+				"id": "ab1b8842-f7e1-4b5b-8bf2-48d450d283d5",
+				"method": "GET"
+			},
+			{
+				"id": "420a1f11-08d7-4141-815f-8ac19edd0a19",
+				"method": "POST"
+			},
+			{
+				"id": "887dc370-b2f9-4ca3-95c7-6dda33b60a53",
+				"method": "GET"
+			}
+		]
+	}
+}

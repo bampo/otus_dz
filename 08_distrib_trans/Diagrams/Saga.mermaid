@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant Customer
+    participant OrderService
+    participant PaymentService
+    participant StockService
+    participant DeliveryService
+    participant MessageBus
+
+    Customer->>OrderService: Create Order
+    OrderService->>MessageBus: OrderCreated
+    MessageBus->>PaymentService: Process Payment
+    alt Payment Success
+        PaymentService->>MessageBus: PaymentProcessed
+        MessageBus->>StockService: Reserve Stock
+        alt Stock Success
+            StockService->>MessageBus: StockReserved
+            MessageBus->>DeliveryService: Reserve Delivery
+            alt Delivery Success
+                DeliveryService->>MessageBus: DeliveryReserved
+                MessageBus->>OrderService: Complete Order
+                OrderService->>Customer: Order Completed
+            else Delivery Failure
+                DeliveryService->>MessageBus: DeliveryReservationFailed
+                MessageBus->>PaymentService: Cancel Payment
+                MessageBus->>StockService: Release Stock
+                MessageBus->>OrderService: Cancel Order
+                OrderService->>Customer: Order Failed
+            end
+        else Stock Failure
+            StockService->>MessageBus: StockReservationFailed
+            MessageBus->>PaymentService: Cancel Payment
+            MessageBus->>OrderService: Cancel Order
+            OrderService->>Customer: Order Failed
+        end
+    else Payment Failure
+        PaymentService->>MessageBus: PaymentFailed
+        MessageBus->>OrderService: Cancel Order
+        OrderService->>Customer: Order Failed
+    end
