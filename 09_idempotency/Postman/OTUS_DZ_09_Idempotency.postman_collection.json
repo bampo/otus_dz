@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "8c6f6662-38fe-497f-bf43-898d8633a8b4",
+		"name": "OTUS_DZ_09_Idempotency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1699867"
+	},
+	"item": [
+		{
+			"name": "Order_Key01_Create_Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"pm.environment.set(\"orderId\", jsonData.id);\r",
+							"pm.environment.set(\"idempotency_key\", jsonData.idempotencyKey);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Idempotency-Key",
+						"value": "Key01",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerId\": \"2b8d09e1-ffd6-4349-b850-8c64776d45da\",\r\n  \"productId\": \"1b8d09e1-ffd6-4349-b850-8c64776d45da\",\r\n  \"quantity\": 2,\r\n  \"amount\": 2,\r\n  \"timeSlot\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/api/orders",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order_Key01_Duplicate_Create_Same_Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"let jsonData = pm.response.json();\r",
+							"pm.test(\"Same order Id\", function () {\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"orderId\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Idempotency-Key",
+						"value": "Key01",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerId\": \"2b8d09e1-ffd6-4349-b850-8c64776d45da\",\r\n  \"productId\": \"1b8d09e1-ffd6-4349-b850-8c64776d45da\",\r\n  \"quantity\": 2,\r\n  \"amount\": 2,\r\n  \"timeSlot\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/api/orders",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order_Key02_Create_Other_Order_Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"let jsonData = pm.response.json();\r",
+							"pm.test(\"Same order Id\", function () {\r",
+							"    pm.expect(jsonData.id).to.not.eql(pm.environment.get(\"orderId\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Idempotency-Key",
+						"value": "Key02",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerId\": \"2b8d09e1-ffd6-4349-b850-8c64776d45da\",\r\n  \"productId\": \"1b8d09e1-ffd6-4349-b850-8c64776d45da\",\r\n  \"quantity\": 2,\r\n  \"amount\": 2,\r\n  \"timeSlot\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/api/orders",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

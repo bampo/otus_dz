@@ -1,0 +1,127 @@
+{
+	"id": "52311906-70a7-4465-b50a-970dbd78be9e",
+	"name": "OTUS_DZ_09_Idempotency",
+	"timestamp": "2025-05-18T08:16:08.300Z",
+	"collection_id": "1699867-8c6f6662-38fe-497f-bf43-898d8633a8b4",
+	"folder_id": 0,
+	"environment_id": "1699867-0bb49e38-284a-492b-b69c-2f2d7162a56c",
+	"totalPass": 5,
+	"delay": "0100",
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-05-18T08:16:07.412Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "ddb666b9-7de7-47b4-b766-61b7b448cd3a",
+			"name": "Order_Key01_Create_Success",
+			"url": "http://arch.homework/api/orders",
+			"time": 55,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				55
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "380a33a7-aadf-42b1-9cd7-0fac43d0d4fa",
+			"name": "Order_Key01_Duplicate_Create_Same_Id",
+			"url": "http://arch.homework/api/orders",
+			"time": 5,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Same order Id": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Same order Id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Same order Id": true
+				}
+			]
+		},
+		{
+			"id": "4caeb1ed-291b-4de2-993f-afd3a321908a",
+			"name": "Order_Key02_Create_Other_Order_Id",
+			"url": "http://arch.homework/api/orders",
+			"time": 6,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Same order Id": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Same order Id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Same order Id": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 66,
+	"collection": {
+		"requests": [
+			{
+				"id": "ddb666b9-7de7-47b4-b766-61b7b448cd3a",
+				"method": "POST"
+			},
+			{
+				"id": "380a33a7-aadf-42b1-9cd7-0fac43d0d4fa",
+				"method": "POST"
+			},
+			{
+				"id": "4caeb1ed-291b-4de2-993f-afd3a321908a",
+				"method": "POST"
+			}
+		]
+	}
+}
