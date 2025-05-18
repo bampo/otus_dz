@@ -44,6 +44,7 @@
 
 ## Тестирование в Postman
 - Загрузить [коллекцию Postman](Postman/OTUS_DZ_09_Idempotency.postman_collection.json)
+- Установить для переменной коллекции baseUrl значение "arch.homework"
 - в Test Runner указать задержку 100 мс
 - Выполнить тесты 
 

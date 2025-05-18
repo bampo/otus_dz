@@ -45,11 +45,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://arch.homework/api/orders",
+					"raw": "http://{{baseUrl}}/api/orders",
 					"protocol": "http",
 					"host": [
-						"arch",
-						"homework"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
@@ -101,11 +100,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://arch.homework/api/orders",
+					"raw": "http://{{baseUrl}}/api/orders",
 					"protocol": "http",
 					"host": [
-						"arch",
-						"homework"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
@@ -157,11 +155,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://arch.homework/api/orders",
+					"raw": "http://{{baseUrl}}/api/orders",
 					"protocol": "http",
 					"host": [
-						"arch",
-						"homework"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"api",

@@ -48,7 +48,12 @@ DbInit();
 
 app.MapDefaultEndpoints();
 
-app.MapScalarApiReference();
+app.MapScalarApiReference(
+    opt =>
+    {
+        opt.Title = "Orders Service";
+        opt.Theme = ScalarTheme.Kepler;
+    });
 
 app.MapOpenApi();
 
