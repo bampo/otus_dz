@@ -48,7 +48,6 @@ DbInit();
 app.MapDefaultEndpoints();
 app.MapScalarApiReference();
 app.MapOpenApi();
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseMiddleware<UserIdMiddleware>();

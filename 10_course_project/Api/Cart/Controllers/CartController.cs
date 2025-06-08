@@ -9,22 +9,6 @@ namespace Cart.Service.Controllers;
 [Route("api/cart")]
 public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbContext) : ControllerBase
 {
-    private IActionResult ValidateCustomerId(Guid customerId)
-    {
-        var userIdString = HttpContext.Items["UserId"]?.ToString();
-
-        if (!Guid.TryParse(userIdString, out var userId))
-        {
-            return BadRequest("Invalid user ID format");
-        }
-
-        if (!Guid.Equals(customerId, userId))
-        {
-            return Unauthorized();
-        }
-
-        return Ok(); 
-    }
 
     [HttpPost]
     public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
@@ -73,6 +57,23 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
             .ToListAsync();
 
         return Ok(cartItems);
+    }
+
+    private IActionResult ValidateCustomerId(Guid customerId)
+    {
+        var userIdString = HttpContext.Items["UserId"]?.ToString();
+
+        if (!Guid.TryParse(userIdString, out var userId))
+        {
+            return BadRequest("Invalid user ID format");
+        }
+
+        if (!Guid.Equals(customerId, userId))
+        {
+            return Unauthorized();
+        }
+
+        return Ok(); 
     }
 }
 

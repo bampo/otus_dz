@@ -15,5 +15,5 @@ public record ReleaseStock(Guid OrderId);
 public record CancelOrder(Guid OrderId, string Reason);
 public record CompleteOrder(Guid OrderId);
 public record CartAdded(Guid CartItemId, Guid CustomerId, Guid ProductId, int Quantity, decimal Price);
-public record CatalogItemAdded(Guid ItemId, string Name, string Description, decimal Price);
+public record CatalogItemAdded(Guid ItemId, string Name, string Description, decimal Price, string Article);
 public record CustomerRegistered(Guid CustomerId, string Email, string FirstName, string LastName);

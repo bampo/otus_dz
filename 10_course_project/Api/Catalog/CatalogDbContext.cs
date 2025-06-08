@@ -17,5 +17,6 @@ namespace Catalog.Service
         public int StockQuantity { get; set; }
         public required string Category { get; set; }
         public DateTime CreatedAt { get; set; }
+        public required string Article { get; set; }
     }
 }
