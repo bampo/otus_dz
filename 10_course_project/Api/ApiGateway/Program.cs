@@ -6,6 +6,11 @@ using ApiGateway.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile($"appsettings.{env}.json", optional: true);
+
 // Cofigures the service discovery services
 builder.Services.AddServiceDiscovery();
 

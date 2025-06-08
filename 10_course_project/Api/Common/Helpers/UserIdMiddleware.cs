@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace Common.Helpers;
 
@@ -6,6 +7,15 @@ public class UserIdMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
     {
+        // Check if the method has [Anonymous] attribute
+        var endpoint = context.GetEndpoint();
+        if (endpoint != null &&
+            endpoint.Metadata.Any(m => m is AllowAnonymousAttribute))
+        {
+            await next(context);
+            return;
+        }
+
         // Извлекаем X-User-Id
         if (context.Request.Headers.TryGetValue("X-User-Id", out var userId))
         {
