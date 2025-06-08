@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Customer.Service": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:15101;http://localhost:15100"
+    }
+  }
+}

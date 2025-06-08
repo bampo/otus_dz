@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Cart.Service": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:15601;http://localhost:15600"
+    }
+  }
+}
