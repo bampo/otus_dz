@@ -21,6 +21,10 @@ namespace Customers.Controllers
             {
                 return BadRequest("Password is required");
             }
+            if (context.Customers.Any(c => c.Email.ToLower() == model.Email.ToLower()))
+            {
+                return BadRequest("User already registered");
+            }
 
             var salt = PasswordHandler.GenerateSalt();
             var hashedPassword = PasswordHandler.HashPassword(model.Password, salt);
@@ -31,7 +35,8 @@ namespace Customers.Controllers
                 LastName = model.LastName,
                 Email = model.Email,
                 PasswordHash = hashedPassword,
-                Salt = salt
+                Salt = salt,
+                Active = false
             };
 
             context.Customers.Add(customer);
@@ -48,13 +53,29 @@ namespace Customers.Controllers
             return Ok(customerRegistered);
         }
 
+        [HttpGet("confirm-email/{customerId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(Guid customerId)
+        {
+            var customer = await context.Customers.FirstOrDefaultAsync(c => c.Id ==  customerId && !c.Active);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+    
+            customer.Active = true;
+            await context.SaveChangesAsync();
+            
+            return Ok("Email confirmed successfully");
+        }
+    
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginRequest request)
         {
             var customer = await context.Customers.FirstOrDefaultAsync(x => x.Email == request.Email);
-
-            if (customer == null || !PasswordHandler.VerifyPassword(request.Password, customer.Salt, customer.PasswordHash))
+    
+            if (customer == null || !customer.Active || !PasswordHandler.VerifyPassword(request.Password, customer.Salt, customer.PasswordHash))
             {
                 return Unauthorized();
             }

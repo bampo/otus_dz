@@ -20,10 +20,10 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
 
         if (!Guid.Equals(customerId, userId))
         {
-            return StatusCode(403);
+            return Unauthorized();
         }
 
-        return Ok(); // Validation successful
+        return Ok(); 
     }
 
     [HttpPost]

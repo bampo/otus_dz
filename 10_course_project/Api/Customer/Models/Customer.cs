@@ -27,4 +27,6 @@ public class Customer
 
     [Required]
     public string Salt { get; set; }
+
+    public bool Active { get; set; } = false;
 }
