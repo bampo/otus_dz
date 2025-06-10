@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <!-- Reference to the Cart project -->
-    <ProjectReference Include="..\..\Cart\Cart.Service.csproj" />
+    <ProjectReference Include="..\..\Services\Cart\Cart.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

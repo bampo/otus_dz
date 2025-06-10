@@ -25,9 +25,9 @@ public class DeliveryConsumer(DeliveryDbContext dbContext) : IConsumer<ReserveDe
         await dbContext.SaveChangesAsync();
 
         if (courierAvailable)
-            await context.Publish(new DeliveryReserved (context.Message.OrderId ));
+            await context.Publish(new DeliveryReserved(context.Message.OrderId));
         else
-            await context.Publish(new DeliveryReservationFailed( context.Message.OrderId,  "No free curiers for slot"));
+            await context.Publish(new DeliveryCancelled(context.Message.OrderId, "No free couriers for slot"));
     }
 
     private bool SimulateCourierAvailability(int timeSlot) => timeSlot % 2 == 0 ; // Успешно, если в четные слоты

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using Catalog.Service;
 using Catalog.Service.Controllers;
@@ -5,6 +6,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+
+public record CreateCatalogItemRequest(string Name, string Description, decimal Price, int StockQuantity, string Category, string Article);
+public record UpdateCatalogItemRequest(string Name, string Description, decimal Price, int StockQuantity, string Category, string Article);
+public record CatalogItemAdded(Guid Id, string Name, string Description, decimal Price, string Article);
 
 namespace CatalogIntegrationTests
 {
@@ -62,6 +67,22 @@ namespace CatalogIntegrationTests
         }
 
         [Fact]
+        public async Task GetAllItems_ReturnsList()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/api/catalog/list");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<List<CatalogItem>>();
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
         public async Task AddCatalogItem_ReturnsCreatedResponse()
         {
             // Arrange
@@ -72,7 +93,8 @@ namespace CatalogIntegrationTests
                 "This is a test item",
                 9.99m,
                 100,
-                "Test Category"
+                "Test Category",
+                "TEST123"
             );
 
             // Act
@@ -113,7 +135,8 @@ namespace CatalogIntegrationTests
                 Price = 9.99m,
                 StockQuantity = 100,
                 Category = "Test Category",
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                Article = "TEST456"
             };
 
             db.CatalogItems.Add(catalogItem);
@@ -134,6 +157,66 @@ namespace CatalogIntegrationTests
             Assert.Equal(catalogItem.Price, result.Price);
             Assert.Equal(catalogItem.StockQuantity, result.StockQuantity);
             Assert.Equal(catalogItem.Category, result.Category);
+        }
+
+        [Fact]
+        public async Task GetCatalogItem_ReturnsNotFound()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            var nonExistingId = Guid.NewGuid();
+
+            // Act
+            var response = await client.GetAsync($"/api/catalog/{nonExistingId}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task UpdateCatalogItem_ReturnsUpdatedItem()
+        {
+            // Arrange
+            var db = await GetDbContext();
+
+            // Add test data
+            var catalogItem = new CatalogItem
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test Item",
+                Description = "This is a test item",
+                Price = 9.99m,
+                StockQuantity = 100,
+                Category = "Test Category",
+                CreatedAt = DateTime.UtcNow,
+                Article = "TEST789"
+            };
+
+            db.CatalogItems.Add(catalogItem);
+            await db.SaveChangesAsync();
+
+            var client = _factory.CreateClient();
+            var updateRequest = new UpdateCatalogItemRequest(
+                "Updated Item",
+                "This is an updated item",
+                19.99m,
+                200,
+                "Updated Category",
+                "UPDATED123");
+
+            // Act
+            var response = await client.PutAsJsonAsync($"/api/catalog/{catalogItem.Id}", updateRequest);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<CatalogItem>();
+            Assert.NotNull(result);
+            Assert.Equal(updateRequest.Name, result.Name);
+            Assert.Equal(updateRequest.Description, result.Description);
+            Assert.Equal(updateRequest.Price, result.Price);
+            Assert.Equal(updateRequest.StockQuantity, result.StockQuantity);
+            Assert.Equal(updateRequest.Category, result.Category);
+            Assert.Equal(updateRequest.Article, result.Article);
         }
     }
 }

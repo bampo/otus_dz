@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>610931cf-d773-4ac1-a928-e227c7aeaccd</UserSecretsId>
+    <UserSecretsId>ff00d56e-a57f-4dde-b898-187f55561013</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aspire\DistibTrans.ServiceDefaults\IShop.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\..\Aspire\IShop.ServiceDefaults\IShop.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

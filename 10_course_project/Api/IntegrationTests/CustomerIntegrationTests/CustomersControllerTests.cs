@@ -121,7 +121,7 @@ public class CustomersControllerTests(WebApplicationFactory<Program> factory) : 
         // Add authentication header for a non-existent customer
         var randomId = Guid.NewGuid().ToString();
         client.DefaultRequestHeaders.Add("X-User-Id", randomId);
-        var response = await client.GetAsync($"/api/customers/{randomId}");
+        var response = await client.GetAsync($"/api/customers/{Guid.Parse(randomId)}");
 
         // Assert
         Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);

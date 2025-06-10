@@ -12,6 +12,7 @@ public record DeliveryReserved(Guid OrderId);
 public record DeliveryReservationFailed(Guid OrderId, string Reason);
 public record CancelPayment(Guid OrderId, string Reason);
 public record ReleaseStock(Guid OrderId);
+public record DeliveryCancelled(Guid OrderId, string Reason);
 public record CancelOrder(Guid OrderId, string Reason);
 public record CompleteOrder(Guid OrderId);
 public record CartAdded(Guid CartItemId, Guid CustomerId, Guid ProductId, int Quantity, decimal Price);

@@ -19,12 +19,12 @@ public class DeliveryController(IPublishEndpoint publishEndpoint, DeliveryDbCont
             TransactionScopeOption.Required,
             new TransactionOptions { IsolationLevel = IsolationLevel.Serializable },
             TransactionScopeAsyncFlowOption.Enabled);
-        
+
         try
         {
             var slot = await dbContext.DeliverySlots
                 .FirstOrDefaultAsync(s => s.TimeSlot == command.TimeSlot && s.IsAvailable, cancellationToken);
-                
+
             if (slot == null)
             {
                 scope.Complete();
@@ -37,13 +37,13 @@ public class DeliveryController(IPublishEndpoint publishEndpoint, DeliveryDbCont
             slot.IsAvailable = false;
             dbContext.Attach(slot);
             dbContext.Entry(slot).Property(x => x.IsAvailable).IsModified = true;
-            
+
             dbContext.DeliveryReservations.Add(new DeliveryReservation
             {
                 OrderId = command.OrderId,
                 TimeSlot = command.TimeSlot
             });
-            
+
             await dbContext.SaveChangesAsync(cancellationToken);
             scope.Complete();
             await publishEndpoint.Publish(new DeliveryReserved(command.OrderId), cancellationToken);
@@ -70,12 +70,12 @@ public class DeliveryController(IPublishEndpoint publishEndpoint, DeliveryDbCont
         {
             var reservation = await dbContext.DeliveryReservations
                 .FirstOrDefaultAsync(r => r.OrderId == command.OrderId, cancellationToken);
-                
+
             if (reservation != null)
             {
                 var slot = await dbContext.DeliverySlots
                     .FirstOrDefaultAsync(s => s.TimeSlot == reservation.TimeSlot, cancellationToken);
-                    
+
                 if (slot != null)
                 {
                     slot.IsAvailable = true;
@@ -83,12 +83,12 @@ public class DeliveryController(IPublishEndpoint publishEndpoint, DeliveryDbCont
                     dbContext.Entry(slot).Property(x => x.IsAvailable).IsModified = true;
                     await dbContext.SaveChangesAsync(cancellationToken);
                 }
-                
+
                 dbContext.DeliveryReservations.Remove(reservation);
                 await dbContext.SaveChangesAsync(cancellationToken);
                 scope.Complete();
                 await publishEndpoint.Publish(
-                    new DeliveryReservationFailed(reservation.OrderId,  "No free curiers for slot"),
+                    new DeliveryCancelled(reservation.OrderId, "No free couriers for slot"),
                     cancellationToken);
             }
             return Ok();

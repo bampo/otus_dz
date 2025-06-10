@@ -62,7 +62,7 @@ namespace CartIntegrationTests
             // Arrange
             var db = await GetDbContext();
             var customerId = Guid.NewGuid();
-            var request = new AddToCartRequest(customerId, Guid.NewGuid(), 2, 10.99m);
+            var request = new AddToCartRequest(customerId, Guid.NewGuid(), 2);
 
             // Act
             var client = _factory.CreateClient();
@@ -79,14 +79,13 @@ namespace CartIntegrationTests
             Assert.Equal(request.CustomerId, cartItem.CustomerId);
             Assert.Equal(request.ProductId, cartItem.ProductId);
             Assert.Equal(request.Quantity, cartItem.Quantity);
-            Assert.Equal(request.Price, cartItem.Price);
+// Price is set by the controller based on catalog lookup
 
             // Verify event was published
             _publishEndpointMock.Verify(x => x.Publish(It.Is<CartAdded>(e =>
                 e.CustomerId == customerId &&
                 e.ProductId == request.ProductId &&
-                e.Quantity == request.Quantity &&
-                e.Price == request.Price), It.IsAny<CancellationToken>()), Times.Once);
+                e.Quantity == request.Quantity), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -94,7 +93,7 @@ namespace CartIntegrationTests
         {
             // Arrange
             await GetDbContext();
-            var request = new AddToCartRequest(Guid.NewGuid(), Guid.NewGuid(), 1, 9.99m);
+            var request = new AddToCartRequest(Guid.NewGuid(), Guid.NewGuid(), 1);
 
             // Act
             var client = _factory.CreateClient();
@@ -110,7 +109,7 @@ namespace CartIntegrationTests
         {
             // Arrange
             await GetDbContext();
-            var request = new AddToCartRequest(Guid.NewGuid(), Guid.NewGuid(), 1, 9.99m);
+            var request = new AddToCartRequest(Guid.NewGuid(), Guid.NewGuid(), 1);
 
             // Act
             var client = _factory.CreateClient();

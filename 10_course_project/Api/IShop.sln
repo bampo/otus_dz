@@ -5,41 +5,41 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Delivery", "Delivery", "{04E0A1F5-03AC-5C89-2916-573A44A6AF3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delivery.Service", "Delivery\Delivery.Service.csproj", "{DFF21F7D-835B-432A-A292-F6533D573AC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delivery.Service", "Services\Delivery\Delivery.Service.csproj", "{DFF21F7D-835B-432A-A292-F6533D573AC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{C1E8875C-D70B-9A5C-543D-852EF2502BBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Service", "Orders\Orders.Service.csproj", "{F5589F09-1348-47F0-BE7C-BCCB407671A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Service", "Services\Orders\Orders.Service.csproj", "{F5589F09-1348-47F0-BE7C-BCCB407671A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stocks", "Stocks", "{9B6F32A3-FBFB-DB82-E2FF-A8CEA11DDEAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{F2892F7D-49D2-0969-2635-C4CE9CCFB03E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Service", "Payments\Payments.Service.csproj", "{70F3FA20-8DB6-4C13-8F31-384B23CD50C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Service", "Services\Payments\Payments.Service.csproj", "{70F3FA20-8DB6-4C13-8F31-384B23CD50C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{D836D307-F176-4700-9617-C67983DEFC61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stocks.Service", "Stocks\Stocks.Service.csproj", "{19389871-4B08-2964-F09A-ADE78170BC03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stocks.Service", "Services\Stocks\Stocks.Service.csproj", "{19389871-4B08-2964-F09A-ADE78170BC03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShop.ServiceDefaults", "Aspire\DistibTrans.ServiceDefaults\IShop.ServiceDefaults.csproj", "{8EF6A212-234D-E2F6-AADD-260074B0A4EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShop.ServiceDefaults", "Aspire\IShop.ServiceDefaults\IShop.ServiceDefaults.csproj", "{8EF6A212-234D-E2F6-AADD-260074B0A4EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShop.AppHost", "Aspire\DistibTrans.AppHost\IShop.AppHost.csproj", "{083F3095-098F-AC88-7548-E1545ABF1141}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShop.AppHost", "Aspire\IShop.AppHost\IShop.AppHost.csproj", "{083F3095-098F-AC88-7548-E1545ABF1141}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{ABE66B30-BD47-A7B2-B17B-5BA67959B026}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cart", "Cart", "{24133F39-2707-69F9-B8E9-E10A53ECC5E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Service", "Cart\Cart.Service.csproj", "{DDA725D9-71BC-4C50-AE57-BB59EA637C59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Service", "Services\Cart\Cart.Service.csproj", "{DDA725D9-71BC-4C50-AE57-BB59EA637C59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{50761A8C-3A0B-6B1B-86AD-17AC9E1B806D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Service", "Catalog\Catalog.Service.csproj", "{DE8B306A-4F75-4E5B-8D27-86CBDC3C92E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Service", "Services\Catalog\Catalog.Service.csproj", "{DE8B306A-4F75-4E5B-8D27-86CBDC3C92E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customer", "Customer", "{97584C5E-698C-14CD-07E8-E9275FC4CDAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Service", "Customer\Customer.Service.csproj", "{0589B406-592A-4429-AE82-25792858F43E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Service", "Services\Customer\Customer.Service.csproj", "{0589B406-592A-4429-AE82-25792858F43E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerIntegrationTests", "IntegrationTests\CustomerIntegrationTests\CustomerIntegrationTests.csproj", "{BDA9AB90-9CC5-3FFC-A691-6420F8EC4A5E}"
 EndProject
@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryIntegrationTests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{AA9EE0C7-4E1A-44BC-243C-C4E356DC2F3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Service", "Notification\Notification.Service.csproj", "{3ADDE812-865C-47B0-8112-56B6315EFFFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Service", "Services\Notification\Notification.Service.csproj", "{3ADDE812-865C-47B0-8112-56B6315EFFFF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject

@@ -32,7 +32,6 @@ builder.Services.AddMassTransit(
             });
     });
 
-
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 

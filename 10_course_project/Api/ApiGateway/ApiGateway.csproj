@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aspire\DistibTrans.ServiceDefaults\IShop.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Aspire\IShop.ServiceDefaults\IShop.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>

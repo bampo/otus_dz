@@ -9,11 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-
-
+    <ProjectReference Include="..\..\Aspire\IShop.ServiceDefaults\IShop.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\Common\Common.csproj" />
   </ItemGroup>
-	<ItemGroup>
-    <ProjectReference Include="..\Aspire\DistibTrans.ServiceDefaults\IShop.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\Common\Common.csproj" />
-  </ItemGroup>
+  
 </Project>

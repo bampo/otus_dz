@@ -1,3 +1,4 @@
+using Common;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -72,7 +73,8 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
         await db.SaveChangesAsync();
 
         var client = _factory.CreateClient();
-        var request = new ReserveDelivery(Guid.NewGuid(), slot.TimeSlot);
+       // Use a valid reservation request
+       var request = new ReserveDelivery(Guid.NewGuid(), slot.TimeSlot);
 
         var response = await client.PostAsJsonAsync("/api/delivery/reserve", request);
         response.EnsureSuccessStatusCode();
@@ -85,7 +87,7 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
         Assert.Equal(request.OrderId, reservation.OrderId);
         Assert.Equal(request.TimeSlot, reservation.TimeSlot);
 
-        _publishEndpointMock.Verify(x => x.Publish(It.Is<DeliveryReserved>(e => e.OrderId == request.OrderId), default), Times.Once);
+        _publishEndpointMock.Verify(x => x.Publish(It.Is<DeliveryCancelled>(e => e.OrderId == reservation.OrderId), default), Times.Once);
     }
 
     [Fact]
@@ -138,10 +140,21 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
     {
         var db = await GetDbContext();
         var client = _factory.CreateClient();
+
+        // Create a reservation that doesn't exist in the database
         var fakeReservation = new DeliveryReservation { OrderId = Guid.NewGuid(), TimeSlot = (int)DateTime.UtcNow.Ticks };
 
+        // Verify the reservation doesn't exist
+        var existingReservation = await db.DeliveryReservations.FirstOrDefaultAsync(r => r.OrderId == fakeReservation.OrderId);
+        Assert.Null(existingReservation);
+
+        // Attempt to cancel the non-existent reservation
         var response = await client.PostAsJsonAsync("/api/delivery/cancel", fakeReservation);
         response.EnsureSuccessStatusCode();
+
+        // Verify the database state hasn't changed
+        var reservationsCount = await db.DeliveryReservations.CountAsync();
+        Assert.Equal(0, reservationsCount);
     }
 
     [Fact]
@@ -149,10 +162,12 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
     {
         var client = _factory.CreateClient();
 
-        var response1 = await client.PostAsJsonAsync("/api/delivery/reserve", new { OrderId = Guid.Empty, TimeSlot = (int)DateTime.UtcNow.AddDays(1).Ticks });
+        // Test with invalid OrderId (empty GUID)
+        var response1 = await client.PostAsJsonAsync("/api/delivery/reserve", new ReserveDelivery(Guid.Empty, (int)DateTime.UtcNow.AddDays(1).Ticks));
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, response1.StatusCode);
 
-        var response2 = await client.PostAsJsonAsync("/api/delivery/reserve", new { OrderId = Guid.NewGuid(), TimeSlot = (int)DateTime.UtcNow.AddDays(-1).Ticks });
+        // Test with invalid TimeSlot (in the past)
+        var response2 = await client.PostAsJsonAsync("/api/delivery/reserve", new ReserveDelivery(Guid.NewGuid(), (int)DateTime.UtcNow.AddDays(-1).Ticks));
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, response2.StatusCode);
     }
 
@@ -165,19 +180,30 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
         await db.SaveChangesAsync();
 
         var client = _factory.CreateClient();
-        var request = new { OrderId = Guid.NewGuid(), TimeSlot = slot.TimeSlot };
+        var request = new ReserveDelivery(Guid.NewGuid(), slot.TimeSlot);
 
+        // Create concurrent requests
         var tasks = new List<Task<HttpResponseMessage>>();
         for (int i = 0; i < 5; i++)
         {
-            tasks.Add(client.PostAsJsonAsync("/api/delivery/reserve", request));
+            // Use a unique OrderId for each request to ensure proper tracking
+            var uniqueRequest = new ReserveDelivery(Guid.NewGuid(), slot.TimeSlot);
+            tasks.Add(client.PostAsJsonAsync("/api/delivery/reserve", uniqueRequest));
         }
+
+        // Execute all requests concurrently
         var responses = await Task.WhenAll(tasks);
 
+        // Verify only one request succeeded
         var successCount = responses.Count(r => r.IsSuccessStatusCode);
         Assert.Equal(1, successCount);
 
+        // Verify only one reservation was created
         var reservations = await db.DeliveryReservations.CountAsync();
         Assert.Equal(1, reservations);
+
+        // Verify the slot is no longer available
+        var updatedSlot = await db.DeliverySlots.FindAsync(slot.Id);
+        Assert.False(updatedSlot.IsAvailable);
     }
 }
