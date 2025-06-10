@@ -80,6 +80,7 @@ namespace CartIntegrationTests
             Assert.Equal(request.ProductId, cartItem.ProductId);
             Assert.Equal(request.Quantity, cartItem.Quantity);
 // Price is set by the controller based on catalog lookup
+;
 
             // Verify event was published
             _publishEndpointMock.Verify(x => x.Publish(It.Is<CartAdded>(e =>
@@ -102,6 +103,8 @@ namespace CartIntegrationTests
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            var content = await response.Content.ReadAsStringAsync();
+            Assert.Contains("Invalid user ID", content);
         }
 
         [Fact]
@@ -118,6 +121,8 @@ namespace CartIntegrationTests
 
             // Assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            var content = await response.Content.ReadAsStringAsync();
+            Assert.Contains("User ID mismatch", content);
         }
 
         [Fact]

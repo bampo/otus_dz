@@ -87,7 +87,7 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
         Assert.Equal(request.OrderId, reservation.OrderId);
         Assert.Equal(request.TimeSlot, reservation.TimeSlot);
 
-        _publishEndpointMock.Verify(x => x.Publish(It.Is<DeliveryCancelled>(e => e.OrderId == reservation.OrderId), default), Times.Once);
+        _publishEndpointMock.Verify(x => x.Publish(It.Is<DeliveryReserved>(e => e.OrderId == request.OrderId), default), Times.Once);
     }
 
     [Fact]
@@ -165,10 +165,14 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
         // Test with invalid OrderId (empty GUID)
         var response1 = await client.PostAsJsonAsync("/api/delivery/reserve", new ReserveDelivery(Guid.Empty, (int)DateTime.UtcNow.AddDays(1).Ticks));
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, response1.StatusCode);
+        var content1 = await response1.Content.ReadAsStringAsync();
+        Assert.Contains("Invalid order ID", content1);
 
         // Test with invalid TimeSlot (in the past)
         var response2 = await client.PostAsJsonAsync("/api/delivery/reserve", new ReserveDelivery(Guid.NewGuid(), (int)DateTime.UtcNow.AddDays(-1).Ticks));
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, response2.StatusCode);
+        var content2 = await response2.Content.ReadAsStringAsync();
+        Assert.Contains("Invalid time slot", content2);
     }
 
     [Fact]

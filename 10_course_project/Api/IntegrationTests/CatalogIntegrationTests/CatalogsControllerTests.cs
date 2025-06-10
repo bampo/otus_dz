@@ -73,13 +73,30 @@ namespace CatalogIntegrationTests
             var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync("/api/catalog/list");
+           // Add test data first
+           var db = await GetDbContext();
+           var catalogItem = new CatalogItem
+           {
+               Id = Guid.NewGuid(),
+               Name = "Test Item",
+               Description = "This is a test item",
+               Price = 9.99m,
+               StockQuantity = 100,
+               Category = "Test Category",
+               CreatedAt = DateTime.UtcNow,
+               Article = "TEST456"
+           };
+           db.CatalogItems.Add(catalogItem);
+           await db.SaveChangesAsync();
+
+           var response = await client.GetAsync("/api/catalog/list");
 
             // Assert
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<List<CatalogItem>>();
             Assert.NotNull(result);
-            Assert.Empty(result);
+           Assert.Single(result); // Should find the test item we added
+           Assert.Equal(catalogItem.Id, result[0].Id);
         }
 
         [Fact]

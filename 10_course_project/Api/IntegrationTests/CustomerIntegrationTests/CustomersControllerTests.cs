@@ -125,5 +125,7 @@ public class CustomersControllerTests(WebApplicationFactory<Program> factory) : 
 
         // Assert
         Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Customer not found", content);
     }
 }
