@@ -1,15 +1,19 @@
 using MassTransit;
 using Cart.Service;
+using Common;
 using Scalar.AspNetCore;
 using Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile($"appsettings.{env}.json", optional: true);
+
 builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<CartDbContext>("cartdb");
-
-
 
 builder.Services.AddMassTransit(
     x =>
@@ -32,6 +36,13 @@ builder.Services.AddMassTransit(
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+var servicesSecton = builder.Configuration.GetSection("Services").Get<ServicesConfigSection>()
+    ?? throw new InvalidOperationException("No Services section in config");
+
+builder.Services.AddHttpClient("Catalog", client =>
+{
+    client.BaseAddress = new Uri(servicesSecton.Catalog);
+});
 
 var app = builder.Build();
 

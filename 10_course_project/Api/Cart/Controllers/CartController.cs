@@ -2,12 +2,13 @@ using Common;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Json;
 
 namespace Cart.Service.Controllers;
 
 [ApiController]
 [Route("api/cart")]
-public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbContext) : ControllerBase
+public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbContext, IHttpClientFactory httpClientFactory) : ControllerBase
 {
 
     [HttpPost]
@@ -19,13 +20,51 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
             return validationResult;
         }
 
+        // Validate quantity
+        if (request.Quantity < 0)
+        {
+            return BadRequest("Negative quantity not allowed");
+        }
+
+        var httpClient = httpClientFactory.CreateClient("Catalog");
+        var catalogItemResponse = await httpClient.GetAsync($"api/catalog/{request.ProductId}");
+        if (!catalogItemResponse.IsSuccessStatusCode)
+        {
+            return BadRequest("Product not found in catalog");
+        }
+
+        var catalogItem = await catalogItemResponse.Content.ReadFromJsonAsync<CatalogItem>();
+        if (catalogItem == null)
+        {
+            return BadRequest("Invalid product data from catalog");
+        }
+
+        // Проверяю есть ли в наличии
+        if (request.Quantity > catalogItem.StockQuantity)
+        {
+            return Conflict($"Not enough items in stock: {catalogItem.StockQuantity}");
+        }
+        
+        // Проверяю что уже есть в корзине
+        var existingItem = await dbContext.CartItems
+            .FirstOrDefaultAsync(c =>
+                c.CustomerId == request.CustomerId &&
+                c.ProductId == request.ProductId);
+
+        if (existingItem != null)
+        {
+            existingItem.Quantity = request.Quantity;
+            await dbContext.SaveChangesAsync();
+            return Ok(existingItem);
+        }
+
         var cartItem = new CartItem
         {
             Id = Guid.NewGuid(),
             CustomerId = request.CustomerId,
             ProductId = request.ProductId,
             Quantity = request.Quantity,
-            Price = request.Price,
+            Price = catalogItem.Price,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -77,4 +116,6 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
     }
 }
 
-public record AddToCartRequest(Guid CustomerId, Guid ProductId, int Quantity, decimal Price);
+public record AddToCartRequest(Guid CustomerId, Guid ProductId, int Quantity);
+
+public record CatalogItem(Guid Id, string Name, string Description, decimal Price, int StockQuantity, string Category, string Article);
