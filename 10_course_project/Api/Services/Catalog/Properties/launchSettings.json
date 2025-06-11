@@ -1,12 +1,20 @@
 {
   "profiles": {
-    "Catalog.Service": {
+    "Catalog-dev": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "dev"
+      },
+      "applicationUrl": "http://localhost:15500"
+    },
+    "https": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:15621;http://localhost:15620"
+      "applicationUrl": "https://localhost:15501;http://localhost:15500"
     }
   }
 }

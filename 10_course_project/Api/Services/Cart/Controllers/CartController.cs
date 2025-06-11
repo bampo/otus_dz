@@ -12,7 +12,7 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
 {
 
     [HttpPost]
-    public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
+    public async Task<IActionResult> AddItem([FromBody] AddToCartRequest request)
     {
         var validationResult = ValidateCustomerId(request.CustomerId);
         if (validationResult is not OkResult)
@@ -79,7 +79,28 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
             cartItem.Quantity,
             cartItem.Price));
 
-        return CreatedAtAction(nameof(AddToCart), new { id = cartItem.Id });
+        return CreatedAtAction(nameof(AddItem), new { id = cartItem.Id });
+    }
+
+    [HttpDelete("{customerId}/{id}")]
+    public async Task<IActionResult> RemoveItem(Guid customerId, Guid id)
+    {
+        var validationResult = ValidateCustomerId(customerId);
+        if (validationResult is not OkResult)
+        {
+            return validationResult;
+        }
+        var cartItem = await dbContext.CartItems
+            .FirstOrDefaultAsync(i => i.CustomerId == customerId && i.Id == id);
+        if (cartItem == null)
+        {
+            return NotFound();
+        }
+
+        dbContext.Remove(cartItem);
+        await dbContext.SaveChangesAsync();
+
+        return Ok();
     }
 
     [HttpGet("{customerId}")]
