@@ -6,20 +6,19 @@ using Stubs.Service.Models;
 
 namespace Stubs.Service.Saga;
 
-public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStock>, IConsumer<ReleaseStock>
+public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStocks>, IConsumer<ReleaseStock>
 {
 
-    public async Task Consume(ConsumeContext<ReserveStock> context)
+    public async Task Consume(ConsumeContext<ReserveStocks> context)
     {
         // Симуляция проверки наличия товара
-        bool stockAvailable = SimulateStockCheck(context.Message.Quantity);
+        bool stockAvailable = AvailableStocksCheck(context.Message.OrderListId);
 
         var reservation = new StockReservation
         {
             Id = Guid.NewGuid(),
             OrderId = context.Message.OrderId,
-            ProductId = context.Message.ProductId,
-            Quantity = context.Message.Quantity,
+            ProductId = context.Message.OrderListId,
             Status = stockAvailable ? "Reserved" : "Failed"
         };
 
@@ -27,7 +26,7 @@ public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStock>, 
         await dbContext.SaveChangesAsync();
 
         if (stockAvailable)
-            await context.Publish(new StockReserved (context.Message.OrderId ));
+            await context.Publish(new Stockseserved (context.Message.OrderId ));
         else
             await context.Publish(new StockReservationFailed (context.Message.OrderId, "Stock reservation failed"));
     }
@@ -42,5 +41,8 @@ public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStock>, 
         }
     }
 
-    private bool SimulateStockCheck(int quantity) => quantity <= 10; // Симуляция наличия
+    private bool AvailableStocksCheck(Guid orderListId)
+    {
+        return true;
+    }
 }

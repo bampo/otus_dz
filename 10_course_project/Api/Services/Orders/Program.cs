@@ -1,3 +1,4 @@
+using Common;
 using Common.Helpers;
 using MassTransit;
 using Orders.Service;
@@ -7,6 +8,8 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+AddHttpServices(builder);
 
 builder.Services.AddControllers();
 
@@ -45,6 +48,7 @@ var app = builder.Build();
 
 DbInit();
 
+
 app.MapDefaultEndpoints();
 app.MapScalarApiReference();
 app.MapOpenApi();
@@ -62,4 +66,20 @@ void DbInit()
     using var scope = app.Services.CreateScope();
     var ctx = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
     ctx.Database.EnsureCreated();
+}
+
+void AddHttpServices(WebApplicationBuilder webApplicationBuilder)
+{
+    var servicesSecton = webApplicationBuilder.Configuration.GetSection("Services").Get<ServicesConfigSection>()
+                         ?? throw new InvalidOperationException("No Services section in config");
+
+    webApplicationBuilder.Services.AddHttpClient("Cart", client =>
+    {
+        client.BaseAddress = new Uri(servicesSecton.Cart);
+    });
+
+    webApplicationBuilder.Services.AddHttpClient("Catalog", client =>
+    {
+        client.BaseAddress = new Uri(servicesSecton.Catalog);
+    });
 }

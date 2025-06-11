@@ -1,11 +1,11 @@
 namespace Common;
 
-public record OrderCreated(Guid OrderId, Guid CustomerId, Guid ProductId, int Quantity, decimal Amount, int TimeSlot);
+public record OrderCreated(Guid OrderId, Guid CustomerId, Guid OrderListId, int TimeSlot);
 public record ProcessPayment(Guid OrderId, decimal Amount);
 public record PaymentProcessed(Guid OrderId);
 public record PaymentFailed(Guid OrderId, string Reason);
-public record ReserveStock(Guid OrderId, Guid ProductId, int Quantity);
-public record StockReserved(Guid OrderId);
+public record ReserveStocks(Guid OrderId, Guid OrderListId);
+public record Stockseserved(Guid OrderId);
 public record StockReservationFailed(Guid OrderId, string Reason);
 public record ReserveDelivery(Guid OrderId, int TimeSlot);
 public record DeliveryReserved(Guid OrderId);
