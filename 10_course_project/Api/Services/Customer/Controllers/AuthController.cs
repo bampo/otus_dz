@@ -75,9 +75,13 @@ namespace Customers.Controllers
         {
             var customer = await context.Customers.FirstOrDefaultAsync(x => x.Email == request.Email);
     
-            if (customer == null || !customer.Active || !PasswordHandler.VerifyPassword(request.Password, customer.Salt, customer.PasswordHash))
+            if (customer == null || !PasswordHandler.VerifyPassword(request.Password, customer.Salt, customer.PasswordHash))
             {
                 return Unauthorized();
+            }
+            if (customer.Active == false)
+            {
+                return Unauthorized("Email was not confirmed");
             }
 
             var customerId = new Guid(customer.Id.ToString());

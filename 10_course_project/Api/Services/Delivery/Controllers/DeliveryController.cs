@@ -11,7 +11,6 @@ namespace Delivery.Service.Controllers;
 [Route("api/[controller]")]
 public class DeliveryController(IPublishEndpoint publishEndpoint, DeliveryDbContext dbContext) : ControllerBase
 {
-
     [HttpPost("reserve")]
     public async Task<IActionResult> ReserveDelivery([FromBody] ReserveDelivery command, CancellationToken cancellationToken)
     {
