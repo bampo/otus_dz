@@ -1,4 +1,4 @@
-namespace Stocks.Models;
+namespace Stubs.Service.Models;
 
 public class Stock
 {

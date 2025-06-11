@@ -1,11 +1,12 @@
 using Common;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Stocks.Models;
+using Stubs.Service.DbContexts;
+using Stubs.Service.Models;
 
-namespace Stocks.Service.Saga;
+namespace Stubs.Service.Saga;
 
-public class StockConsumer(WarehouseDbContext dbContext) : IConsumer<ReserveStock>, IConsumer<ReleaseStock>
+public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStock>, IConsumer<ReleaseStock>
 {
 
     public async Task Consume(ConsumeContext<ReserveStock> context)

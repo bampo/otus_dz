@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Stocks.Models;
+using Stubs.Service.DbContexts;
+using Stubs.Service.Models;
 
-namespace Stocks;
+namespace Stubs.Service.Controllers;
 
 [ApiController]
 [Route("api/stocks")]
-public class StockController(WarehouseDbContext dbContext) : ControllerBase
+public class StockController(StubsDbContext dbContext) : ControllerBase
 {
 
     [HttpGet]

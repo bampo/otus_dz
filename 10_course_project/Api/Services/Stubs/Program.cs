@@ -1,13 +1,13 @@
 using Common.Helpers;
 using MassTransit;
-using Stocks;
+using Scalar.AspNetCore;
+using Stubs.Service.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
-
 builder.Services.AddOpenApi();
 
 builder.Services.AddMassTransit(
@@ -27,7 +27,7 @@ builder.Services.AddMassTransit(
             });
     });
 
-builder.AddNpgsqlDbContext<WarehouseDbContext>("stocksdb");
+builder.AddNpgsqlDbContext<StubsDbContext>("stubsdb");
 
 var app = builder.Build();
 
@@ -35,10 +35,7 @@ DbInit();
 
 app.MapDefaultEndpoints();
 app.MapOpenApi();
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-app.UseMiddleware<UserIdMiddleware>();
+app.MapScalarApiReference();
 
 app.MapControllers();
 
@@ -48,6 +45,8 @@ return;
 void DbInit()
 {
     var scope = app.Services.CreateScope();
-    var ctx = scope.ServiceProvider.GetRequiredService<WarehouseDbContext>();
+    var ctx = scope.ServiceProvider.GetRequiredService<StubsDbContext>();
     ctx.Database.EnsureCreated();
 }
+
+public partial class Program { }

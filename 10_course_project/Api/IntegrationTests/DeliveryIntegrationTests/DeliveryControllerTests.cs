@@ -6,8 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Net.Http.Json;
 using Xunit;
-using Delivery.Service.Models;
-using Delivery.Service;
+
+using Stubs.Service.DbContexts;
+using Stubs.Service.Models;
 
 namespace DeliveryIntegrationTests;
 
@@ -32,7 +33,7 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
 
-                services.AddDbContextPool<DeliveryDbContext>(options =>
+                services.AddDbContextPool<StubsDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("DeliveryTestDb");
                     options.UseInternalServiceProvider(serviceProvider);
@@ -41,11 +42,11 @@ public class DeliveryControllerTests : IClassFixture<WebApplicationFactory<Progr
         });
     }
 
-    protected async Task<DeliveryDbContext> GetDbContext()
+    protected async Task<StubsDbContext> GetDbContext()
     {
         var scope = _factory.Services.CreateScope();
         var scopedServices = scope.ServiceProvider;
-        var db = scopedServices.GetRequiredService<DeliveryDbContext>();
+        var db = scopedServices.GetRequiredService<StubsDbContext>();
 
         await db.Database.EnsureDeletedAsync();
         await db.Database.EnsureCreatedAsync();

@@ -22,11 +22,9 @@
     <ProjectReference Include="..\..\Services\Cart\Cart.Service.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Catalog.Service.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Customer.Service.csproj" />
-    <ProjectReference Include="..\..\Services\Delivery\Delivery.Service.csproj" />
     <ProjectReference Include="..\..\Services\Notification\Notification.Service.csproj" />
     <ProjectReference Include="..\..\Services\Orders\Orders.Service.csproj" />
-    <ProjectReference Include="..\..\Services\Payments\Payments.Service.csproj" />
-    <ProjectReference Include="..\..\Services\Stocks\Stocks.Service.csproj" />
+    <ProjectReference Include="..\..\Services\Stubs\Stubs.Service.csproj" />
   </ItemGroup>
 
 </Project>

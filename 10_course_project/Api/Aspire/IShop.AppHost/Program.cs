@@ -17,9 +17,7 @@ var postgres = builder.AddPostgres("pgsrv",pgUser,pgPass, 5432)
         //.WithPgWeb(cfg => cfg.WithHostPort(5050))
     ;
 var orderdb = postgres.AddDatabase("ordersdb");
-var paymentsdb = postgres.AddDatabase("paymentsdb");
-var deliverydb = postgres.AddDatabase("deliverydb");
-var stocksdb = postgres.AddDatabase("stocksdb");
+var stubsdb = postgres.AddDatabase("stubsdb");
 var cartdb = postgres.AddDatabase("cartdb");
 var catalogdb = postgres.AddDatabase("catalogdb");
 var customerdb = postgres.AddDatabase("customerdb");
@@ -32,20 +30,11 @@ var orders = builder.AddProject<Projects.Orders_Service>("orders-service")
 var notification = builder.AddProject<Projects.Notification_Service>("notification-service")
     .WithReference(rabbitMq);
 
-var payments = builder.AddProject<Projects.Payments_Service>("payments-service")
-    .WithReference(rabbitMq)
-    .WithReference(paymentsdb)
-    .WaitFor(paymentsdb);
 
-var stocks = builder.AddProject<Projects.Stocks_Service>("stocks-service")
+var stubs = builder.AddProject<Projects.Stubs_Service>("stubs-service")
     .WithReference(rabbitMq)
-    .WithReference(stocksdb)
-    .WaitFor(stocksdb);
-
-var delivary = builder.AddProject<Projects.Delivery_Service>("delivery-service")
-    .WithReference(rabbitMq)
-    .WithReference(deliverydb)
-    .WaitFor(deliverydb);
+    .WithReference(stubsdb)
+    .WaitFor(stubsdb);
 
 var cart = builder.AddProject<Projects.Cart_Service>("cart-service")
     .WithReference(rabbitMq)
@@ -64,9 +53,7 @@ var customer = builder.AddProject<Projects.Customer_Service>("customer-service")
 
 builder.AddProject<Projects.ApiGateway>("api-gateway")
     .WithReference(orders)
-    .WithReference(payments)
-    .WithReference(delivary)
-    .WithReference(stocks)
+    .WithReference(stubs)
     .WithReference(cart)
     .WithReference(catalog)
     .WithReference(customer)
