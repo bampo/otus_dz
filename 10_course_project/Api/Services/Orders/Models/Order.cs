@@ -10,4 +10,5 @@ public class Order
     public string Reason { get; set; }
     public int TimeSlot { get; set; }
     public DateTime CreatedAt { get; set; }
+    public string IdempotencyKey { get; set; }
 }

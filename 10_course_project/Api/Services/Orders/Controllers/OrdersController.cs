@@ -19,53 +19,87 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
         {
             return validationResult;
         }
-        Guid orderListId;
-        try
+
+        if (!Request.Headers.TryGetValue("Idempotency-Key", out var idempotencyKey) || string.IsNullOrEmpty(idempotencyKey))
         {
-            orderListId = await CreateOrderList(request);
-        }
-        catch (Exception e)
-        {
-            return Problem("Server error", statusCode: 500);
+            return BadRequest("Idempotency-Key header is required.");
         }
 
-        var order = new Order
-        {
-            Id = Guid.NewGuid(),
-            CustomerId = request.CustomerId,
-            OrderListId = orderListId,
-            Status = "Pending",
-            TimeSlot = request.TimeSlot,
-            CreatedAt = DateTime.UtcNow
-        };
-        await dbContext.Orders.AddAsync(order);
-        await dbContext.SaveChangesAsync();
+        var dbStrategy = dbContext.Database.CreateExecutionStrategy();
+        return await dbStrategy.ExecuteAsync(
+            async () =>
+            {
+                await using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-        await publishEndpoint.Publish(
-            new OrderCreated(
-                order.Id,
-                order.CustomerId,
-                order.OrderListId,
-                order.TimeSlot
-            ));
+                try
+                {
+                    var existingOrder = await dbContext.Orders
+                        .Where(o => o.IdempotencyKey == (string)idempotencyKey)
+                        .FirstOrDefaultAsync();
 
-        return CreatedAtAction(nameof(CreateOrder), new { id = order.Id });
+                    if (existingOrder != null)
+                    {
+                        return CreatedAtAction(nameof(CreateOrder), new { orderId = existingOrder.Id }, existingOrder);
+                    }
+
+                    Guid orderListId;
+                    try
+                    {
+                        orderListId = await CreateOrderList(request);
+                    }
+                    catch (Exception e)
+                    {
+                        return Problem("Server error", statusCode: 500);
+                    }
+
+                    var order = new Order
+                    {
+                        Id = Guid.NewGuid(),
+                        CustomerId = request.CustomerId,
+                        OrderListId = orderListId,
+                        Status = "Pending",
+                        TimeSlot = request.TimeSlot,
+                        CreatedAt = DateTime.UtcNow,
+                        IdempotencyKey = idempotencyKey
+                    };
+                    await dbContext.Orders.AddAsync(order);
+                    await dbContext.SaveChangesAsync();
+
+                    await publishEndpoint.Publish(
+                        new OrderCreated(
+                            order.Id,
+                            order.CustomerId,
+                            order.OrderListId,
+                            order.TimeSlot
+                        ));
+
+                    await transaction.CommitAsync();
+
+                    return CreatedAtAction(nameof(CreateOrder), order);
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            });
     }
 
-    private async Task<Guid> CreateOrderList(CreateOrderRequest order)
+    private async Task<Guid> CreateOrderList(CreateOrderRequest request)
     {
         var cart = httpFactory.CreateClient("Cart");
         cart.DefaultRequestHeaders.Add("X-User-Id", HttpContext.Items["UserId"]?.ToString());
-        var items = await cart.GetFromJsonAsync<CartItem[]>($"/api/cart/{order.CustomerId}");
+        var items = await cart.GetFromJsonAsync<CartItem[]>($"/api/cart/{request.CustomerId}");
         var orderList = new OrderList()
         {
-            CustomerId = order.CustomerId,
-            OrderItems = items.Select(i => new OrderItem
-            {
-                ProductId = i.ProductId,
-                Price = i.Price,
-                Quantity = i.Quantity
-            }).ToList()
+            CustomerId = request.CustomerId,
+            OrderItems = items.Select(
+                i => new OrderItem
+                {
+                    ProductId = i.ProductId,
+                    Price = i.Price,
+                    Quantity = i.Quantity
+                }).ToList()
         };
         dbContext.OrdersLists.Add(orderList);
         await dbContext.SaveChangesAsync();
@@ -73,25 +107,34 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
         return orderList.Id;
     }
 
-    [HttpGet("{orderId}")]
-    public async Task<IActionResult> GetOrdersById([FromRoute] Guid orderId)
+    [HttpGet("{customerId}/{request}")]
+    public async Task<IActionResult> GetOrdersById([FromRoute] Guid customerId,[FromRoute] Guid id)
     {
-        string userIdString = (string)HttpContext.Items["UserId"]!;
-
-        if (!Guid.TryParse(userIdString, out Guid userId))
+        var validationResult = ValidateCustomerId(customerId);
+        if (validationResult is not OkResult)
         {
-            return BadRequest("Invalid user ID format");
+            return validationResult;
         }
 
         var order = await dbContext.Orders
-            .Where(o => o.Id == orderId && o.CustomerId == userId)
+            .Where(o => o.Id == id && o.CustomerId == customerId)
             .FirstOrDefaultAsync();
 
         if (order is null)
         {
-            return NotFound($"Order {orderId} was not found");
+            return NotFound($"Order {id} was not found");
         }
         return Ok(order);
+    }
+
+    [HttpGet("{customerId}")]
+    public async Task<IActionResult> GetOrders([FromRoute] Guid customerId)
+    {
+        var orders = await dbContext.Orders
+            .Where(o => o.CustomerId == customerId)
+            .OrderByDescending(o => o.CreatedAt).ToListAsync();
+
+        return Ok(orders);
     }
 
     private IActionResult ValidateCustomerId(Guid customerId)
@@ -108,9 +151,10 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
             return Unauthorized();
         }
 
-        return Ok(); 
+        return Ok();
     }
 }
 
 public record CreateOrderRequest(Guid CustomerId, int TimeSlot);
+
 public record CartItem(Guid CustomerId, Guid ProductId, int Quantity, decimal Price);
