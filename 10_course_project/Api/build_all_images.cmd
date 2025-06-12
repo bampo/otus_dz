@@ -1,5 +1,7 @@
 start build_api_gateway.cmd
+start build_cart.cmd
+start build_catalog.cmd
+start build_customer.cmd
+start build_notification.cmd
 start build_orders.cmd
-start build_payments.cmd
-start build_stocks.cmd
-start build_delivery.cmd
+start build_stubs.cmd
