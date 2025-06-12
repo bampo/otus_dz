@@ -1,0 +1,20 @@
+namespace Common;
+
+public record OrderCreated(Guid OrderId, Guid CustomerId, Guid OrderListId, int TimeSlot);
+public record ProcessPayment(Guid OrderId, decimal Amount);
+public record PaymentProcessed(Guid OrderId);
+public record PaymentFailed(Guid OrderId, string Reason);
+public record ReserveStocks(Guid OrderId, Guid OrderListId);
+public record Stockseserved(Guid OrderId);
+public record StockReservationFailed(Guid OrderId, string Reason);
+public record ReserveDelivery(Guid OrderId, int TimeSlot);
+public record DeliveryReserved(Guid OrderId);
+//public record DeliveryReservationFailed(Guid OrderId, string Reason);
+public record CancelPayment(Guid OrderId, string Reason);
+public record ReleaseStock(Guid OrderId);
+public record DeliveryCancelled(Guid OrderId, string Reason);
+public record CancelOrder(Guid OrderId, string Reason);
+public record CompleteOrder(Guid OrderId);
+public record CartAdded(Guid CartItemId, Guid CustomerId, Guid ProductId, int Quantity, decimal Price);
+public record CatalogItemAdded(Guid ItemId, string Name, string Description, decimal Price, string Article);
+public record CustomerRegistered(Guid CustomerId, string Email, string FirstName, string LastName);
