@@ -9,7 +9,7 @@ public record Stockseserved(Guid OrderId);
 public record StockReservationFailed(Guid OrderId, string Reason);
 public record ReserveDelivery(Guid OrderId, int TimeSlot);
 public record DeliveryReserved(Guid OrderId);
-public record DeliveryReservationFailed(Guid OrderId, string Reason);
+//public record DeliveryReservationFailed(Guid OrderId, string Reason);
 public record CancelPayment(Guid OrderId, string Reason);
 public record ReleaseStock(Guid OrderId);
 public record DeliveryCancelled(Guid OrderId, string Reason);

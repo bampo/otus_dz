@@ -29,7 +29,7 @@ public class DeliveryController(IPublishEndpoint publishEndpoint, StubsDbContext
             {
                 scope.Complete();
                 await publishEndpoint.Publish(
-                    new DeliveryReservationFailed(command.OrderId, "Time slots unavailable"),
+                    new DeliveryCancelled(command.OrderId, "Time slots unavailable"),
                     cancellationToken);
                 return BadRequest("No available slots");
             }
@@ -52,7 +52,7 @@ public class DeliveryController(IPublishEndpoint publishEndpoint, StubsDbContext
         catch (Exception ex) when (ex is DbUpdateConcurrencyException || ex is DbUpdateException)
         {
             await publishEndpoint.Publish(
-                new DeliveryReservationFailed(command.OrderId, "Concurrency conflict"),
+                new DeliveryCancelled(command.OrderId, "Concurrency conflict"),
                 cancellationToken);
             return Conflict("Delivery reservation conflict");
         }

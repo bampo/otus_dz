@@ -16,7 +16,8 @@ namespace Catalog.Service
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public required string Category { get; set; }
-        public DateTime CreatedAt { get; set; }
         public required string Article { get; set; }
+        public string ImageUrl { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

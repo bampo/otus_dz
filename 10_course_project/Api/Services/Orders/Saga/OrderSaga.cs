@@ -16,7 +16,7 @@ public class OrderSaga : MassTransitStateMachine<OrderSagaState>
     public Event<DeliveryReserved> DeliveryReservedEvent { get; private set; }
     public Event<PaymentFailed> PaymentFailedEvent { get; private set; }
     public Event<StockReservationFailed> StocksReservationFailedEvent { get; private set; }
-    public Event<DeliveryReservationFailed> DeliveryReservationFailedEvent { get; private set; }
+    public Event<DeliveryCancelled> DeliveryCancelledEvent { get; private set; }
 
     public OrderSaga()
     {
@@ -28,7 +28,7 @@ public class OrderSaga : MassTransitStateMachine<OrderSagaState>
         Event(() => DeliveryReservedEvent, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => PaymentFailedEvent, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => StocksReservationFailedEvent, x => x.CorrelateById(context => context.Message.OrderId));
-        Event(() => DeliveryReservationFailedEvent, x => x.CorrelateById(context => context.Message.OrderId));
+        Event(() => DeliveryCancelledEvent, x => x.CorrelateById(context => context.Message.OrderId));
 
         Initially(
             When(OrderCreatedEvent)
@@ -65,7 +65,7 @@ public class OrderSaga : MassTransitStateMachine<OrderSagaState>
                     .Publish(context => new CompleteOrder (context.Saga.OrderId))
                     .TransitionTo(Completed)
                     .Finalize(),
-                When(DeliveryReservationFailedEvent)
+                When(DeliveryCancelledEvent)
                     .Publish(context => new CancelPayment (context.Saga.OrderId, context.Message.Reason))
                     .Publish(context => new ReleaseStock (context.Saga.OrderId))
                     .Publish(context => new CancelOrder (context.Saga.OrderId, context.Message.Reason))
