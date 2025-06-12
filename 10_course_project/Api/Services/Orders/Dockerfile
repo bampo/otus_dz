@@ -12,12 +12,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Orders/Orders.Service.csproj", "Orders/"]
-COPY ["Aspire/DistibTrans.ServiceDefaults/DistibTrans.ServiceDefaults.csproj", "Aspire/DistibTrans.ServiceDefaults/"]
+COPY ["Services/Orders/Orders.Service.csproj", "Services/Orders/"]
+COPY ["Aspire/IShop.ServiceDefaults/IShop.ServiceDefaults.csproj", "Aspire/IShop.ServiceDefaults/"]
 COPY ["Common/Common.csproj", "Common/"]
-RUN dotnet restore "./Orders/Orders.Service.csproj"
+RUN dotnet restore "./Services/Orders/Orders.Service.csproj"
 COPY . .
-WORKDIR "/src/Orders"
+WORKDIR "/src/Services/Orders"
 RUN dotnet build "./Orders.Service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

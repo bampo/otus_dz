@@ -2,11 +2,19 @@
   "profiles": {
     "Notification-dev": {
       "commandName": "Project",
-      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "dev"
       },
       "applicationUrl": "http://localhost:16100"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_HTTP_PORTS": "8080"
+      },
+      "publishAllPorts": true,
+      "useSSL": false
     }
   },
   "Notification.Service": {
@@ -17,4 +25,4 @@
     },
     "applicationUrl": "https://localhost:16100;http://localhost:16100"
   }
-} 
+}

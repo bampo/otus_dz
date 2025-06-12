@@ -12,21 +12,21 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Stocks/Stocks.Service.csproj", "Stocks/"]
-COPY ["Aspire/DistibTrans.ServiceDefaults/DistibTrans.ServiceDefaults.csproj", "Aspire/DistibTrans.ServiceDefaults/"]
+COPY ["Services/Stubs/Stubs.Service.csproj", "Services/Stubs/"]
+COPY ["Aspire/IShop.ServiceDefaults/IShop.ServiceDefaults.csproj", "Aspire/IShop.ServiceDefaults/"]
 COPY ["Common/Common.csproj", "Common/"]
-RUN dotnet restore "./Stocks/Stocks.Service.csproj"
+RUN dotnet restore "./Services/Stubs/Stubs.Service.csproj"
 COPY . .
-WORKDIR "/src/Stocks"
-RUN dotnet build "./Stocks.Service.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Services/Stubs"
+RUN dotnet build "./Stubs.Service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Stocks.Service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Stubs.Service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Stocks.Service.dll"]
+ENTRYPOINT ["dotnet", "Stubs.Service.dll"]

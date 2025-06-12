@@ -6,7 +6,14 @@
     <Nullable>enable</Nullable>
     <EnableDefaultItems>true</EnableDefaultItems>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>24c5d2b1-89e6-458d-81c5-cb351bdb6a53</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Aspire\IShop.ServiceDefaults\IShop.ServiceDefaults.csproj" />
