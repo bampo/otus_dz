@@ -15,7 +15,7 @@
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:16401;http://localhost:16400"
-    },
+    }
     //"Container (Dockerfile)": {
     //  "commandName": "Docker",
     //  "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
