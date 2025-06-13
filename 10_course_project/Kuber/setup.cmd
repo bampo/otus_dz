@@ -1,9 +1,9 @@
 kubectl create ns myns
-
-rem helm install pg16 bitnami/postgresql -f pg-values.yml --namespace myns
-
-rem helm install rabbit bitnami/rabbitmq -f rmq-values.yml --namespace myns  
-
-kubectl apply -f init-svcs.yml
-
-kubectl apply -f gate.yml
+kubectl apply -f api-gateway.yaml
+kubectl apply -f cart.yaml
+kubectl apply -f catalog.yaml
+kubectl apply -f customer.yaml
+kubectl apply -f notification.yaml
+kubectl apply -f orders.yaml
+kubectl apply -f stubs.yaml
+kubectl apply -f ingress.yaml

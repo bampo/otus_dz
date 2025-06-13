@@ -8,7 +8,9 @@ namespace Orders.Service.Controllers;
 
 [ApiController]
 [Route("api/orders")]
-public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext dbContext, IHttpClientFactory httpFactory) : ControllerBase
+public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext dbContext, 
+    IHttpClientFactory httpFactory, ILogger<OrdersController> logger
+) : ControllerBase
 {
 
     [HttpPost]
@@ -42,13 +44,16 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
                         return CreatedAtAction(nameof(CreateOrder), new { orderId = existingOrder.Id }, existingOrder);
                     }
 
-                    Guid orderListId;
+                    OrderList orderList;
                     try
                     {
-                        orderListId = await CreateOrderList(request);
+                        
+                        orderList = await CreateOrderList(request);
+                        logger.LogInformation("Created OrderList: {listId}", orderList.Id);
                     }
                     catch (Exception e)
                     {
+                        logger.LogError(e, "Error creating order list");
                         return Problem("Server error", statusCode: 500);
                     }
 
@@ -56,36 +61,42 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
                     {
                         Id = Guid.NewGuid(),
                         CustomerId = request.CustomerId,
-                        OrderListId = orderListId,
+                        OrderListId = orderList.Id,
                         Status = "Pending",
                         TimeSlot = request.TimeSlot,
                         CreatedAt = DateTime.UtcNow,
+                        Amount = orderList.Amount,
                         IdempotencyKey = idempotencyKey
                     };
                     await dbContext.Orders.AddAsync(order);
                     await dbContext.SaveChangesAsync();
+
+                    logger.LogInformation("Created order {id}", order.Id);
+
 
                     await publishEndpoint.Publish(
                         new OrderCreated(
                             order.Id,
                             order.CustomerId,
                             order.OrderListId,
-                            order.TimeSlot
+                            order.TimeSlot,
+                            orderList.Amount
                         ));
 
                     await transaction.CommitAsync();
 
                     return CreatedAtAction(nameof(CreateOrder), order);
                 }
-                catch
+                catch(Exception e)
                 {
+                    logger.LogError(e, "Error when create order");
                     await transaction.RollbackAsync();
                     throw;
                 }
             });
     }
 
-    private async Task<Guid> CreateOrderList(CreateOrderRequest request)
+    private async Task<OrderList> CreateOrderList(CreateOrderRequest request)
     {
         var cart = httpFactory.CreateClient("Cart");
         cart.DefaultRequestHeaders.Add("X-User-Id", HttpContext.Items["UserId"]?.ToString());
@@ -99,13 +110,18 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
                     ProductId = i.ProductId,
                     Price = i.Price,
                     Quantity = i.Quantity
-                }).ToList()
+                }).ToList(),
         };
+        orderList.Amount = CalcAmount(orderList.OrderItems);
         dbContext.OrdersLists.Add(orderList);
         await dbContext.SaveChangesAsync();
 
-        return orderList.Id;
+        return orderList;
     }
+
+    private static decimal CalcAmount(ICollection<OrderItem> items)
+        => items.Sum(i => i.Price * i.Quantity);
+
 
     [HttpGet("{customerId}/{request}")]
     public async Task<IActionResult> GetOrdersById([FromRoute] Guid customerId,[FromRoute] Guid id)

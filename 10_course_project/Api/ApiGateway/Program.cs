@@ -4,7 +4,20 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using ApiGateway.Middleware;
 
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(b => b.AddService(serviceName: "OTel.NET CrudApi"))
+    .WithMetrics(
+        b =>
+            b.SetResourceBuilder(ResourceBuilder.CreateDefault())
+                .AddAspNetCoreInstrumentation()
+                .AddPrometheusExporter());
 
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 builder.Configuration
@@ -55,6 +68,11 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
+app.MapPrometheusScrapingEndpoint();
+
+
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

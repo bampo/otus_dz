@@ -9,6 +9,7 @@ public class Order
     public string Status { get; set; } // Pending, Completed, Failed
     public string Reason { get; set; }
     public int TimeSlot { get; set; }
+    public decimal Amount { get; set; }
     public DateTime CreatedAt { get; set; }
     public string IdempotencyKey { get; set; }
 }

@@ -6,28 +6,34 @@ using Stubs.Service.Models;
 
 namespace Stubs.Service.Saga;
 
-public class PaymentConsumer(StubsDbContext dbContext) : IConsumer<ProcessPayment>, IConsumer<CancelPayment>
+public class PaymentConsumer(StubsDbContext dbContext, ILogger<PaymentConsumer> logger) : IConsumer<ProcessPayment>, IConsumer<CancelPayment>
 {
     public async Task Consume(ConsumeContext<ProcessPayment> context)
     {
         // Симуляция проверки платежа
-        var paymentSuccess = SimulatePaymentProcessing(context.Message.Amount);
+        var paymentMessage = SimulatePaymentProcessing(context.Message.Amount);
 
         var payment = new Payment
         {
             Id = Guid.NewGuid(),
             OrderId = context.Message.OrderId,
             Amount = context.Message.Amount,
-            Status = paymentSuccess ? "Completed" : "Failed"
+            Status = paymentMessage is null ? "Completed" : "Failed"
         };
 
         dbContext.Payments.Add(payment);
         await dbContext.SaveChangesAsync();
 
-        if (paymentSuccess)
+        if (paymentMessage == null)
+        {
+            logger.LogInformation("Payment was successful");
             await context.Publish(new PaymentProcessed( context.Message.OrderId ));
+        }
         else
-            await context.Publish(new PaymentFailed (context.Message.OrderId, "Payment failed"));
+        {
+            logger.LogWarning("Payment failed: {msg}", paymentMessage);
+            await context.Publish(new PaymentFailed (context.Message.OrderId, $"Payment failed: {paymentMessage}"));
+        }
     }
 
     public async Task Consume(ConsumeContext<CancelPayment> context)
@@ -41,5 +47,9 @@ public class PaymentConsumer(StubsDbContext dbContext) : IConsumer<ProcessPaymen
         }
     }
 
-    private bool SimulatePaymentProcessing(decimal Amount) => Amount < 100; // Проходит, если стоимость меньше 100
+    // Проходит, если стоимость меньше 301
+    private string? SimulatePaymentProcessing(decimal Amount) => Amount <= 300 
+        ? null    
+        : "Amount > 300"
+    ; 
 }

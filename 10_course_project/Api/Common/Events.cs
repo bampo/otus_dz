@@ -1,6 +1,6 @@
 namespace Common;
 
-public record OrderCreated(Guid OrderId, Guid CustomerId, Guid OrderListId, int TimeSlot);
+public record OrderCreated(Guid OrderId, Guid CustomerId, Guid OrderListId, int TimeSlot, decimal Amount);
 public record ProcessPayment(Guid OrderId, decimal Amount);
 public record PaymentProcessed(Guid OrderId);
 public record PaymentFailed(Guid OrderId, string Reason);

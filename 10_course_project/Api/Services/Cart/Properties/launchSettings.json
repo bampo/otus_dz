@@ -3,7 +3,8 @@
     "Cart-dev": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "dev"
+        "ASPNETCORE_ENVIRONMENT": "dev",
+        "ConnectionStrings__rabbitmq" : "rabbitmq://srv1.home:5672"
       },
       "applicationUrl": "http://localhost:15600"
     },

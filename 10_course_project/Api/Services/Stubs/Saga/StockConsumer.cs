@@ -6,7 +6,7 @@ using Stubs.Service.Models;
 
 namespace Stubs.Service.Saga;
 
-public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStocks>, IConsumer<ReleaseStock>
+public class StockConsumer(StubsDbContext dbContext, ILogger<StockConsumer> logger) : IConsumer<ReserveStocks>, IConsumer<ReleaseStock>
 {
 
     public async Task Consume(ConsumeContext<ReserveStocks> context)
@@ -26,9 +26,15 @@ public class StockConsumer(StubsDbContext dbContext) : IConsumer<ReserveStocks>,
         await dbContext.SaveChangesAsync();
 
         if (stockAvailable)
+        {
+            logger.LogInformation("Stocks reserved");
             await context.Publish(new Stockseserved (context.Message.OrderId ));
+        }
         else
+        {
+            logger.LogWarning("Stocks reservation failed.");
             await context.Publish(new StockReservationFailed (context.Message.OrderId, "Stock reservation failed"));
+        }
     }
 
     public async Task Consume(ConsumeContext<ReleaseStock> context)

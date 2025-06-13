@@ -12,10 +12,8 @@
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="YARP.ReverseProxy" Version="2.3.0" />
-
-    <!-- Authentication and Authorization packages -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
-    <!-- <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.11.*" /> -->
+    <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.11.2-beta.1" />
   </ItemGroup>
 
   <ItemGroup>

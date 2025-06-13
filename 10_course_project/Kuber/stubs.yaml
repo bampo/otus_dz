@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stubs-service
+  namespace: myns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stubs-service
+  template:
+    metadata:
+      labels:
+        app: stubs-service
+    spec:
+      containers:
+      - name: stubs-service
+        image: monguard2/otus_kurs_stubs_api:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        - name: ASPNETCORE_URLS
+          value: http://+:80
+        - name: ConnectionStrings__rabbitmq
+          value: rabbitmq://srv1.home:5672
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stubs-service
+  namespace: myns
+spec:
+  selector:
+    app: stubs-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP

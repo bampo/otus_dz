@@ -6,11 +6,6 @@ using Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-builder.Configuration
-    .AddJsonFile("appsettings.json", optional: false)
-    .AddJsonFile($"appsettings.{env}.json", optional: true);
-
 builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<CartDbContext>("cartdb");

@@ -10,7 +10,6 @@ public class OrderSagaState : SagaStateMachineInstance
     public Guid OrderId { get; set; }
     public Guid CustomerId { get; set; }
     public Guid OrderListId { get; set; }
-    public int Quantity { get; set; }
     public decimal Amount { get; set; }
     public int TimeSlot { get; set; }
     public DateTime? PaymentProcessed { get; set; }
