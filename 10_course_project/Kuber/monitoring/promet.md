@@ -3,21 +3,17 @@
 
 - Добавьте Helm-репозиторий:
 
-  bash
-
   ```
   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
   helm repo update
   ```
 
 - Создайте namespace для мониторинга:
-  bash
 
   `kubectl create namespace monitoring`
 
 - Установите kube-prometheus-stack в минимальной конфигурации:
 Создайте файл prometheus-values.yaml для минимальной настройки:
-  yaml
 
   ```
   prometheus:
@@ -42,14 +38,11 @@
     enabled: false # Отключаем node-exporter
   ```
 - Установите чарт:
-  bash
 
-  `
-  helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring -f prometheus-values.yaml`
+  `helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring -f prometheus-values.yaml`
 
 - Проверьте установку:
   Убедитесь, что поды Prometheus запущены:
-  bash
 
 `kubectl get pods -n monitoring`
 
@@ -81,13 +74,11 @@ spec:
 ```
 
 - Примените манифест:
-  bash
 
   `kubectl apply -f service-monitor.yaml`
 
 ## Проверьте сбор метрик
   Порт-форвардинг для доступа к Prometheus:
-  bash
 
 `kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090`
 
@@ -120,12 +111,10 @@ grafana:
 ```
 
 - Переустановите чарт:
-  bash
 
   `helm upgrade prometheus prometheus-community/kube-prometheus-stack -n monitoring -f prometheus-values.yaml`
 
 - Получите доступ к Grafana:
-  bash
 
   `kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80`
 
