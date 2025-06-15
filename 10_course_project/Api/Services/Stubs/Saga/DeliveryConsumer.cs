@@ -35,7 +35,7 @@ public class DeliveryConsumer(StubsDbContext dbContext, ILogger<DeliveryConsumer
         else
         {
             logger.LogWarning("Delivery falied. No couriers for slot {slot}.", slot);
-            await context.Publish(new DeliveryCancelled(context.Message.OrderId, $"No free couriers for slot {slot}"));
+            await context.Publish(new DeliveryCancelled(context.Message.OrderId, $"Нет курьеров на период {slot}"));
         }
     }
 

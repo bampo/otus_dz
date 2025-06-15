@@ -24,6 +24,7 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
 
         if (!Request.Headers.TryGetValue("Idempotency-Key", out var idempotencyKey) || string.IsNullOrEmpty(idempotencyKey))
         {
+            logger.LogWarning("No idempotency key was provided");
             return BadRequest("Idempotency-Key header is required.");
         }
 
@@ -109,7 +110,8 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
                 {
                     ProductId = i.ProductId,
                     Price = i.Price,
-                    Quantity = i.Quantity
+                    Quantity = i.Quantity,
+                    ProductName = i.ProductName
                 }).ToList(),
         };
         orderList.Amount = CalcAmount(orderList.OrderItems);
@@ -146,11 +148,16 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
     [HttpGet("{customerId}")]
     public async Task<IActionResult> GetOrders([FromRoute] Guid customerId)
     {
-        var orders = await dbContext.Orders
-            .Where(o => o.CustomerId == customerId)
-            .OrderByDescending(o => o.CreatedAt).ToListAsync();
+        var ordersWithItems = await (from order in dbContext.Orders
+            where order.CustomerId == customerId
+            join orderList in dbContext.OrdersLists on order.OrderListId equals orderList.Id
+            select new
+            {
+                Order = order,
+                OrderItems = orderList.OrderItems
+            }).OrderByDescending(o => o.Order.CreatedAt).ToListAsync();
 
-        return Ok(orders);
+        return Ok(ordersWithItems);
     }
 
     private IActionResult ValidateCustomerId(Guid customerId)
@@ -173,4 +180,4 @@ public class OrdersController(IPublishEndpoint publishEndpoint, OrderDbContext d
 
 public record CreateOrderRequest(Guid CustomerId, int TimeSlot);
 
-public record CartItem(Guid CustomerId, Guid ProductId, int Quantity, decimal Price);
+public record CartItem(Guid CustomerId, Guid ProductId, string ProductName, int Quantity, decimal Price);

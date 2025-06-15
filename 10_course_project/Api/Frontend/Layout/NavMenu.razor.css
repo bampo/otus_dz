@@ -1,0 +1,104 @@
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.top-row {
+    min-height: 4rem;
+    background-color: #1e40af;
+    padding: 0 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.navbar-brand i {
+    font-size: 1.5rem;
+    color: #f59e0b;
+}
+
+.nav-item {
+    font-size: 1rem;
+    padding: 0.25rem 1rem;
+}
+
+.nav-item:first-of-type {
+    padding-top: 1.5rem;
+}
+
+.nav-item:last-of-type {
+    padding-bottom: 1.5rem;
+}
+
+.nav-item ::deep a,
+.nav-item ::deep button {
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.375rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 1.5;
+    padding: 0 1rem;
+    transition: all 0.2s ease;
+    gap: 0.75rem;
+}
+
+.nav-item ::deep a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 500;
+}
+
+.nav-item ::deep a:hover,
+.nav-item ::deep button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(2px);
+}
+
+.nav-item ::deep .bi {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0;
+    color: #f59e0b;
+}
+
+.nav-item ::deep .badge {
+    margin-left: auto;
+    background-color: #f59e0b;
+    color: #1e40af;
+    font-weight: 600;
+}
+
+.nav-scrollable {
+    padding: 1rem;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler {
+        display: none;
+    }
+
+    .collapse {
+        display: block;
+    }
+
+    .nav-scrollable {
+        height: calc(100vh - 4rem);
+        overflow-y: auto;
+    }
+}

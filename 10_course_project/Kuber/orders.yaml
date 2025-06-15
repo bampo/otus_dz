@@ -25,6 +25,8 @@ spec:
           value: http://+:80
         - name: ConnectionStrings__rabbitmq
           value: rabbitmq://srv1.home:5672
+        - name: Logging__LogLevel__Microsoft.EntityFrameworkCore
+          value: Warning
         resources:
           limits:
             cpu: "500m"

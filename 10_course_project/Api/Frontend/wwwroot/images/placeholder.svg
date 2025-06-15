@@ -1,0 +1,7 @@
+<svg width="150" height="120" viewBox="0 0 150 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Фон, соответствующий #f8f9fa из вашего CSS -->
+  <rect width="150" height="120" fill="#f8f9fa"/>
+  <!-- Иконка изображения в центре, стилизованная под ваш CSS (#6c757d, opacity: 0.7) -->
+  <path d="M50 30 L100 30 L110 40 L110 80 L100 90 L50 90 L40 80 L40 40 Z" fill="none" stroke="#6c757d" stroke-width="4" opacity="0.7"/>
+  <circle cx="60" cy="50" r="6" fill="#6c757d" opacity="0.7"/>
+</svg>

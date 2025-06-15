@@ -3,7 +3,7 @@
     "Stubs-dev": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "dev"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:16400"

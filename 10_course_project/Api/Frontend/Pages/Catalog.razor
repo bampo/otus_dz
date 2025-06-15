@@ -1,0 +1,106 @@
+@page "/catalog"
+@using IShop.Frontend.Services
+@inject CatalogService CatalogService
+
+<h3>Каталог</h3>
+
+@if (catalogItems == null)
+{
+    <p>
+        <em>Загрузка...</em>
+    </p>
+}
+else
+{
+    <div class="catalog-grid">
+        @foreach (var item in catalogItems)
+        {
+            <div class="catalog-item">
+                <!-- Основное содержимое -->
+                <div class="item-body">
+                    <div class="row g-0">
+                        <!-- Левая часть - изображение -->
+                        <div class="col-md-4 mt-3">
+                            <div class="image-container">
+                                <img src="@item.ImageUrl"
+                                     class="img-fluid rounded-start w-100"
+                                     alt="Placeholder Image"
+                                     onerror="this.src='/images/placeholder.svg'">
+                            </div>
+                        </div>
+
+                        <!-- Правая часть - описание -->
+                        <div class="col-md-8">
+                            <div class="p-3">
+                                <h4>@item.Name</h4>
+                                <p>@item.Description</p>
+                                <p>Цена: @item.Price.ToString("0.00") руб.</p>
+                                <p>В наличии: @item.StockQuantity шт.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Нижняя часть (input + кнопка) -->
+                <div class="item-footer">
+                    <div class="row g-0">
+                        <div class="col-md-7 offset-2">
+                            <div class="p-3">
+                                <div class="input-group mb-0" >
+                                    <input type="number" 
+                                           class="form-control" 
+                                           name="parameterValue" 
+                                           @bind="item.BuyQuantity" 
+                                           min="1" 
+                                           max="@item.StockQuantity" 
+                                           step="1"/>
+                                    <button class="btn btn-primary" 
+                                            @onclick="() => AddToCart(item)" 
+                                            disabled="@(isAddingToCart)">
+                                        @if (isAddingToCart)
+                                        {
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Loading...</span>
+                                        }
+                                        else
+                                        {
+                                            <span>В корзину</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<CatalogItem> catalogItems = new();
+    private bool isAddingToCart = false;
+
+    [Inject]
+    private CartService CartService { get; set; } = null!;
+
+    protected async override Task OnInitializedAsync()
+    {
+        catalogItems = await CatalogService.GetCatalogItemsAsync();
+    }
+
+    private async Task AddToCart(CatalogItem item)
+    {
+        isAddingToCart = true;
+        try
+        {
+            await CartService.AddToCartAsync(item.Id, item.BuyQuantity);
+        }
+        finally
+        {
+            isAddingToCart = false;
+            StateHasChanged();
+        }
+    }
+
+}

@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inherits LayoutComponentBase
+
+<CascadingAuthenticationState>
+    <div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+                <div class="products-banner">
+                    <img src="/images/banner.svg" alt="banner"/>
+                </div>
+                @* <a href="https://github.com/bampo/otus_dz/tree/main/10_course_project/Api/Frontend/IShop.Frontend/" target="_blank">About</a> *@
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+    </div>
+</CascadingAuthenticationState>
+
+@code {
+    protected async override Task OnInitializedAsync()
+    {
+        if (NavigationManager.Uri.EndsWith(NavigationManager.BaseUri))
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (authState.User.Identity?.IsAuthenticated == true)
+            {
+                NavigationManager.NavigateTo("catalog");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("auth/login");
+            }
+        }
+    }
+}

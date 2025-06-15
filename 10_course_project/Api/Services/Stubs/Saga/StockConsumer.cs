@@ -33,7 +33,7 @@ public class StockConsumer(StubsDbContext dbContext, ILogger<StockConsumer> logg
         else
         {
             logger.LogWarning("Stocks reservation failed.");
-            await context.Publish(new StockReservationFailed (context.Message.OrderId, "Stock reservation failed"));
+            await context.Publish(new StockReservationFailed (context.Message.OrderId, "Товар закончился"));
         }
     }
 

@@ -1,0 +1,29 @@
+  prometheus:
+    prometheusSpec:
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "250m"
+        limits:
+          memory: "1Gi"
+          cpu: "500m"
+      serviceMonitorSelectorNilUsesHelmValues: false
+  grafana:
+    enabled: true
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+    adminUser: admin # 
+    adminPassword: "12345" 
+  alertmanager:
+    enabled: false # Отключаем Alertmanager
+  kubeStateMetrics:
+    enabled: false # Отключаем kube-state-metrics
+  prometheusOperator:
+    enabled: true
+  prometheus-node-exporter:
+    enabled: false # Отключаем node-exporter
