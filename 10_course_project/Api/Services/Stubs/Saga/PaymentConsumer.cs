@@ -32,7 +32,7 @@ public class PaymentConsumer(StubsDbContext dbContext, ILogger<PaymentConsumer> 
         else
         {
             logger.LogWarning("Payment failed: {msg}", paymentMessage);
-            await context.Publish(new PaymentFailed (context.Message.OrderId, $"Payment failed: {paymentMessage}"));
+            await context.Publish(new PaymentFailed (context.Message.OrderId, $"Платеж отклонен: {paymentMessage}"));
         }
     }
 
@@ -48,8 +48,8 @@ public class PaymentConsumer(StubsDbContext dbContext, ILogger<PaymentConsumer> 
     }
 
     // Проходит, если стоимость меньше 301
-    private string? SimulatePaymentProcessing(decimal Amount) => Amount <= 300 
+    private string? SimulatePaymentProcessing(decimal Amount) => Amount < 300 
         ? null    
-        : "Amount > 300"
+        : "Недостаточно средств (< 300)"
     ; 
 }

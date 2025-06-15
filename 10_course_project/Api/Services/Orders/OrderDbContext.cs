@@ -17,5 +17,4 @@ public class OrderDbContext(DbContextOptions<OrderDbContext> options) : DbContex
     public DbSet<OrderSagaState> SagaData { get; set; }
     public DbSet<OrderList> OrdersLists { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
-
 }

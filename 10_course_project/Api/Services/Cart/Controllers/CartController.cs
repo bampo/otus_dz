@@ -65,6 +65,8 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
             ProductId = request.ProductId,
             Quantity = request.Quantity,
             Price = catalogItem.Price,
+            ProductName = catalogItem.Name,
+            ImageUrl = catalogItem.ImageUrl,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -139,4 +141,4 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
 
 public record AddToCartRequest(Guid CustomerId, Guid ProductId, int Quantity);
 
-public record CatalogItem(Guid Id, string Name, string Description, decimal Price, int StockQuantity, string Category, string Article);
+public record CatalogItem(Guid Id, string Name, string Description, decimal Price, int StockQuantity, string Category, string Article, string ImageUrl);

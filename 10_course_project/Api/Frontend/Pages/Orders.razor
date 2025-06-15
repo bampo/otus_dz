@@ -1,0 +1,83 @@
+﻿@page "/orders"
+@using IShop.Frontend.Models
+@using IShop.Frontend.Services
+@inject OrderService OrderService
+
+<h3>История заказов</h3>
+
+@if (orders == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!orders.Any())
+{
+    <p>Вы еще не сделали ни одного заказа.</p>
+}
+else
+{
+    <div class="orders-container">
+        @foreach (var order in orders.OrderByDescending(o => o.Order.CreatedAt))
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Заказ #@order.Order.Id.ToString().Substring(0, 8)</h5>
+                    <div class="order-meta">
+                        <span>Дата: @(order.Order.CreatedAt.ToString("dd.MM.yyyy HH:mm"))</span>
+                        <span class="badge @GetStatusBadgeClass(order.Order.Status)">@order.Order.Status</span>
+                    </div>
+                    @if (order.Order.Reason is not null)
+                    {
+                        <div class="alert alert-warning mt-1" role="alert">
+                            <span>@order.Order.Reason</span>
+                    </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Количество</th>
+                                <th>Цена</th>
+                                <th>Итого</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in order.OrderItems)
+                            {
+                                <tr>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.Price.ToString("C")</td>
+                                    <td>@((item.Quantity * item.Price).ToString("C"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="order-total">
+                        <strong>Общая сумма заказа: @order.Order.Amount.ToString("C")</strong>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<OrderWithItems> orders = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetOrdersAsync();
+    }
+
+    private string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Completed" => "bg-success",
+            "Cancelled" => "bg-danger",
+            _ => "bg-primary"
+        };
+    }
+}

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Customers.Models;
 using Customers.Services;
@@ -77,11 +77,11 @@ namespace Customers.Controllers
     
             if (customer == null || !PasswordHandler.VerifyPassword(request.Password, customer.Salt, customer.PasswordHash))
             {
-                return Unauthorized();
+                return Unauthorized("Не верный логин или пароль");
             }
             if (customer.Active == false)
             {
-                return Unauthorized("Email was not confirmed");
+                return Unauthorized("Email не был подтвержден");
             }
 
             var customerId = new Guid(customer.Id.ToString());

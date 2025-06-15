@@ -1,0 +1,128 @@
+@page "/cart"
+@using IShop.Frontend.Models
+@using IShop.Frontend.Services
+@inject CartService CartService
+@inject OrderService OrderService
+
+<h3>Ваша корзина</h3>
+
+@if (cartItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!cartItems.Any())
+{
+    <p>Корзина пуста</p>
+}
+else
+{
+    <div class="cart-items">
+        @foreach (var item in cartItems.OrderBy(i => i.ProductName))
+        {
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-2 mt-3">
+                        <div class="image-container">
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" class="img-fluid rounded-start" alt="@item.ProductName" onerror="this.src='/images/placeholder.svg'">
+                            }
+                            else
+                            {
+                                <div class="image-placeholder">
+                                    <i class="fas fa-image"></i>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Название товара: @item.ProductName</h5>
+                            <p class="card-text">Цена: @item.Price.ToString("C")</p>
+                            <div class="input-group" style="width: 150px;">
+                                <button class="btn btn-outline-secondary" @onclick="(() => UpdateQuantity(item, -1))">-</button>
+                                <input type="number" class="form-control text-center" @bind="item.Quantity" min="1" />
+                                <button class="btn btn-outline-secondary" @onclick="(() => UpdateQuantity(item, 1))">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center">
+                        <button class="btn btn-danger" @onclick="(() => RemoveItem(item))">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="cart-total">
+        <h4>Общая сумма: @Total.ToString("0.00") руб.</h4>
+    </div>
+    <div class="checkout-section row">
+        <div class="timeslot-select mb-3 col-2">
+            <label for="timeslot">Выберите время доставки:</label>
+            <select id="timeslot" class="form-select" @bind="selectedTimeslot">
+                @for (var i = 1; i <= 12; i++)
+                {
+                    <option value="@i">@(i+8):00 - @(i+1+8):00</option>
+                }
+            </select>
+        </div>
+        <div class="checkout-button">
+            <button class="btn btn-primary" @onclick="Checkout">Заказать</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private List<CartItem> cartItems = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadCartItems();
+    }
+
+    private async Task LoadCartItems()
+    {
+        cartItems = await CartService.GetCartItemsAsync();
+    }
+
+    private async Task UpdateQuantity(CartItem item, int change)
+    {
+        item.Quantity += change;
+        if (item.Quantity < 1) item.Quantity = 1;
+        await CartService.UpdateCartItemAsync(item);
+        await LoadCartItems();
+    }
+
+    private async Task RemoveItem(CartItem item)
+    {
+        item.Quantity = 1;
+        await CartService.RemoveCartItem(item);
+        await LoadCartItems();
+    }
+
+    private decimal Total => cartItems?.Sum(item => item.Price * item.Quantity) ?? 0;
+
+    private int selectedTimeslot = 1;
+
+    private async Task Checkout()
+    {
+        try
+        {
+            var orderRequest = new CreateOrderRequest
+            {
+                TimeSlot = selectedTimeslot
+            };
+            var result = await OrderService.CreateOrderAsync(orderRequest);
+            NavigationManager.NavigateTo("/orders");
+        }
+        catch (Exception ex)
+        {
+            // TODO: Show error to user
+        }
+    }
+
+}
