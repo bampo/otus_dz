@@ -13,6 +13,7 @@ public class OrderConsumer(OrderDbContext dbContext) : IConsumer<CompleteOrder>,
         {
             order.Status = "Completed";
             await dbContext.SaveChangesAsync();
+
         }
     }
 

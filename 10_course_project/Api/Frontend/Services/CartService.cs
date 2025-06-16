@@ -110,4 +110,22 @@ public class CartService
         response.EnsureSuccessStatusCode();
         OnCartUpdated();
     }
+
+    public async Task ClearCart()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var userId = authState.User.FindFirst("user_id")?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new UnauthorizedAccessException("User must be logged in to clear cart");
+        }
+
+        var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", AuthTokenKey);
+        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        
+        var response = await _httpClient.DeleteAsync($"api/cart/{userId}");
+        response.EnsureSuccessStatusCode();
+        OnCartUpdated();
+    }
 }

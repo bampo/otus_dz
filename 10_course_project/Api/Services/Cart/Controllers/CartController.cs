@@ -1,4 +1,4 @@
-using Common;
+ï»¿using Common;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,13 +39,13 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
             return BadRequest("Invalid product data from catalog");
         }
 
-        // Ïðîâåðÿþ åñòü ëè â íàëè÷èè
+        // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÑŽ ÐµÑÑ‚ÑŒ Ð»Ð¸ Ð² Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ð¸
         if (request.Quantity > catalogItem.StockQuantity)
         {
             return Conflict($"Not enough items in stock: {catalogItem.StockQuantity}");
         }
         
-        // Ïðîâåðÿþ ÷òî óæå åñòü â êîðçèíå
+        // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÑŽ Ñ‡Ñ‚Ð¾ ÑƒÐ¶Ðµ ÐµÑÑ‚ÑŒ Ð² ÐºÐ¾Ñ€Ð·Ð¸Ð½Ðµ
         var existingItem = await dbContext.CartItems
             .FirstOrDefaultAsync(c =>
                 c.CustomerId == request.CustomerId &&
@@ -136,6 +136,25 @@ public class CartController(IPublishEndpoint publishEndpoint, CartDbContext dbCo
         }
 
         return Ok(); 
+    }
+
+    [HttpDelete("{customerId}")]
+    public async Task<IActionResult> ClearCart(Guid customerId)
+    {
+        var validationResult = ValidateCustomerId(customerId);
+        if (validationResult is not OkResult)
+        {
+            return validationResult;
+        }
+
+        var cartItems = await dbContext.CartItems
+            .Where(c => c.CustomerId == customerId)
+            .ToListAsync();
+
+        dbContext.CartItems.RemoveRange(cartItems);
+        await dbContext.SaveChangesAsync();
+
+        return Ok();
     }
 }
 

@@ -8,7 +8,9 @@
 
 @if (cartItems == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else if (!cartItems.Any())
 {
@@ -41,7 +43,7 @@ else
                             <p class="card-text">Цена: @item.Price.ToString("C")</p>
                             <div class="input-group" style="width: 150px;">
                                 <button class="btn btn-outline-secondary" @onclick="(() => UpdateQuantity(item, -1))">-</button>
-                                <input type="number" class="form-control text-center" @bind="item.Quantity" min="1" />
+                                <input type="number" class="form-control text-center" @bind="item.Quantity" min="1"/>
                                 <button class="btn btn-outline-secondary" @onclick="(() => UpdateQuantity(item, 1))">+</button>
                             </div>
                         </div>
@@ -53,7 +55,7 @@ else
             </div>
         }
     </div>
-    
+
     <div class="cart-total">
         <h4>Общая сумма: @Total.ToString("0.00") руб.</h4>
     </div>
@@ -63,17 +65,23 @@ else
             <select id="timeslot" class="form-select" @bind="selectedTimeslot">
                 @for (var i = 1; i <= 12; i++)
                 {
-                    <option value="@i">@(i+8):00 - @(i+1+8):00</option>
+                    <option value="@i">@(i + 8):00 - @(i + 1 + 8):00</option>
                 }
             </select>
         </div>
-        <div class="checkout-button">
+    </div>
+    <div class="row">
+        <div class="col-1">
             <button class="btn btn-primary" @onclick="Checkout">Заказать</button>
+        </div>
+        <div class="col-11 d-flex justify-content-end">
+            <button class="btn btn-danger" @onclick="ClearCart">Очистить корзину</button>
         </div>
     </div>
 }
 
 @code {
+
     [Inject]
     private NavigationManager NavigationManager { get; set; }
 
@@ -108,6 +116,12 @@ else
 
     private int selectedTimeslot = 1;
 
+    private async Task ClearCart()
+    {
+        await CartService.ClearCart();
+        await LoadCartItems();
+    }
+
     private async Task Checkout()
     {
         try
@@ -117,6 +131,7 @@ else
                 TimeSlot = selectedTimeslot
             };
             var result = await OrderService.CreateOrderAsync(orderRequest);
+            await ClearCart();
             NavigationManager.NavigateTo("/orders");
         }
         catch (Exception ex)
